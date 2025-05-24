@@ -31,5 +31,5 @@ urlpatterns = [
     path('world-map/', include('world_map.urls')),
     
     # List of all saved destinations
-    path('saved-places/', include('saved_places.urls')),
+    path('library/', include('library.urls')),
 ]

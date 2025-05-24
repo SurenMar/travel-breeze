@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'world_map',
-    'saved_places',
+    'library',
     
     # Default apps:
     'django.contrib.admin',
