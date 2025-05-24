@@ -5,8 +5,8 @@ from . import views
 app_name = 'library'
 urlpatterns = [
     # List of all destinations saved
-    path('', views.saved_destinations, name='saved_destinations'),
+    path('', views.destination_list, name='destination_list'),
     
     # Show selected destination
-    path('destination/', views.destination, name='destination'),
+    path('destination/', views.destination_detail, name='destination_detail'),
 ]

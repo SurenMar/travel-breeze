@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
 
-def saved_destinations(request):
+def destination_list(request):
     context = {'title': 'Library'}
-    return render(request, 'library/saved_destinations.html', context)
+    return render(request, 'library/destination_list.html', context)
 
 
-def destination(request):
+def destination_detail(request):
     context = {'title': 'city name'}
-    return render(request, 'library/destination.html', context)
+    return render(request, 'library/destination_detail.html', context)
