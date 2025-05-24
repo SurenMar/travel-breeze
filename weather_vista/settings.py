@@ -32,10 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # My apps:
-    'core',
-    'accounts',
-    'world_map',
-    'library',
+    'core',         # Landing page
+    'accounts',     # Accounts page (sign in, sign up)
+    'explore',      # Explore page
+    'library',      # Saved destinations
     
     # Default apps:
     'django.contrib.admin',

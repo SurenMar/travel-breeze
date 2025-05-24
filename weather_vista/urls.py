@@ -27,8 +27,8 @@ urlpatterns = [
     # User accounts (sign in, sign up)
     path('accounts/', include('accounts.urls')),
     
-    # World map page
-    path('world-map/', include('world_map.urls')),
+    # Explore page
+    path('explore/', include('explore.urls')),
     
     # List of all saved destinations
     path('library/', include('library.urls')),
