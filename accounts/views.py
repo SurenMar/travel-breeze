@@ -2,8 +2,10 @@ from django.shortcuts import render
 
 
 def login(request):
-    return render(request, 'accounts/login.html')
+    context = {'title': 'Login'}
+    return render(request, 'accounts/login.html', context)
 
 
 def register(request):
-    return render(request, 'accounts/register.html')
+    context = {'title': 'Register'}
+    return render(request, 'accounts/register.html', context)
