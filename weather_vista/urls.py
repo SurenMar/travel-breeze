@@ -18,6 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # Django admin site
     path('admin/', admin.site.urls),
+    
+    # Home page
+    path('', include('core.urls')),
+    
+    # User accounts (sign in, sign up)
+    path('accounts/', include('accounts.urls')),
+    
+    # World map page
     path('world-map/', include('world_map.urls')),
+    
+    # List of all saved destinations
+    path('saved-places/', include('saved_places.urls')),
 ]
