@@ -1,19 +1,71 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-'''
-models.class (models.Model):
 
+class Destination(models.Model):
+    """
+    A destination the user saved
+    """
+    # Basic information
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
     
-
+    # Country information
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    
     class Meta:
-        verbose_name = _("")
-        verbose_name_plural = _("s")
+        ordering = ['-date_added']
 
     def __str__(self):
-        return self.name
+        return f"{self.country}, {self.city}"
+    
 
-    def get_absolute_url(self):
-        return reverse("_detail", kwargs={"pk": self.pk})
+class MonthlyWeather(models.Model):
+    """
+    A months weather data for a specific destination
+    """
+    # Create tuples for each month
+    MONTH_CHOICES = [(i, month) for i, month in enumerate([
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ], start=1)]
+    
+    # Basic information
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='monthly_stats')
+    month = models.IntegerField(choices=MONTH_CHOICES)
+    
+    # Temprature information
+    avg_temp = models.FloatField(null=True)
+    max_temp = models.FloatField(null=True)
+    min_temp = models.FloatField(null=True)
+    
+    # Wind information
+    wind_speed = models.FloatField(null=True)
+    gust_speed = models.FloatField(null=True)
+    
+    # Percipitation information
+    percipitation = models.FloatField(null=True)
+    snow_depth = models.FloatField(null=True)
+    
+    # Sunshine information
+    sunshine = models.FloatField(null=True)
+    
+    # Humidity information
+    humidity = models.FloatField(null=True)
+    
+    # Other
+    weather_code = models.IntegerField(null=True)
+    
+    class Meta:
+        ordering = ['month']
+        constraints = [
+            models.UniqueConstraint(fields=['destination', 'month'], name='unique_destination_month')
+        ]
         
-'''
+    def __str__(self):
+        return f"{self.get_month_display()}: {self.destination.__str__()}"
+
+        
+
 
