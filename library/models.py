@@ -42,14 +42,9 @@ class MonthlyWeather(models.Model):
     
     # Wind information
     wind_speed = models.FloatField(null=True)
-    gust_speed = models.FloatField(null=True)
     
     # Percipitation information
     percipitation = models.FloatField(null=True)
-    snow_depth = models.FloatField(null=True)
-    
-    # Sunshine information
-    sunshine = models.FloatField(null=True)
     
     # Humidity information
     humidity = models.FloatField(null=True)

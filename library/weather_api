@@ -1,0 +1,19 @@
+# Import Meteostat library and dependencies
+from datetime import datetime
+from meteostat import Hourly, Point
+import json
+
+# Set time period
+start = datetime(2024, 1, 1)
+end = datetime(2024, 12, 31)
+
+# Get daily data
+location = Point(43.6, -80)
+data = Hourly(location, start, end).fetch()
+
+with open('data.json', 'w') as file:
+    json.dump(data.to_dict(orient='records'), file, indent=4)
+
+# to update database, use .get('field') to retrieve values.
+# do this in the same weather_api file by importing your model (class)
+    
