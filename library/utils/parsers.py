@@ -14,3 +14,6 @@ def parse_weather_data(raw_data):
             'weather_code': float(row['coco']),
         })
     return parsed_data
+
+#def _check_weather_validity(data):
+    

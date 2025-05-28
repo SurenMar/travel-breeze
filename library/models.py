@@ -39,16 +39,12 @@ class MonthlyWeather(models.Model):
     avg_temp = models.FloatField(null=True)
     max_temp = models.FloatField(null=True)
     min_temp = models.FloatField(null=True)
-    
     # Humidity information
     humidity = models.FloatField(null=True)
-    
     # Percipitation information
     precipitation = models.FloatField(null=True)
-    
     # Wind information
     wind_speed = models.FloatField(null=True)
-    
     # Other
     weather_code = models.IntegerField(null=True)
     

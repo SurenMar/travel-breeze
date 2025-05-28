@@ -7,6 +7,7 @@ from library.api_clients.country_api import get_country_data
 
 # Import utils
 from library.utils.parsers import parse_weather_data
+from library.utils.analysis import monthly_weather_avgs
 
 # Import services
 #from library.services.save_to_db import "filename"
@@ -24,8 +25,11 @@ def save_data(request):
     lon = float(request.GET.get('longitude'))
     
     # Get weather data through API call and parse it
-    data = get_weather_data(lat, lon)
-    data = parse_weather_data(data)
+    data = monthly_weather_avgs(parse_weather_data(get_weather_data(lat, lon)))
+    
+    import json
+    with open('data.json', 'w') as f:
+        json.dump(data, f, indent=4)
     
     # Get country and city name through API (no need to parse)
     country, city = get_country_data(lat, lon)
