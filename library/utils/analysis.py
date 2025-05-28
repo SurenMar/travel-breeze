@@ -8,7 +8,7 @@ def monthly_weather_avgs(data):
     """
     # List used to store averages for each month
     monthly_data = []
-    month = 1           # Current month we are on
+    month = 1
     
     # Running temprature total, mix, and min
     temp = 0
@@ -30,7 +30,7 @@ def monthly_weather_avgs(data):
     for hour, row in enumerate(data, start=1):
         # Check if a months worth of data has been read
         if hour % HOURS_IN_MONTH == 0:
-            avergaes = {
+            averages = {
                 'month': month,
                 'avg_temp': temp / HOURS_IN_MONTH,
                 'max_temp': max_temp,
@@ -40,10 +40,10 @@ def monthly_weather_avgs(data):
                 'wind_speed': wind_speed / HOURS_IN_MONTH,
                 'weather_code': weather_code / HOURS_IN_MONTH,
             }
-            monthly_data.append(avergaes)
+            monthly_data.append(averages)
             month += 1
             
-            # reset data
+            # Reset data
             temp = 0
             max_temp = row['temp']
             min_temp = row['temp']
@@ -60,5 +60,5 @@ def monthly_weather_avgs(data):
             precipitation += row['precipitation']
             wind_speed += row['wind_speed']
             weather_code += row['weather_code']
-            
+    
     return monthly_data

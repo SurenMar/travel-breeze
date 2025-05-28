@@ -1,0 +1,122 @@
+[
+    {
+        "month": 1,
+        "avg_temp": 13.575317348378002,
+        "max_temp": 24.2,
+        "min_temp": 6.1,
+        "humidity": 72.47390691114245,
+        "precipitation": 0.054724964739069126,
+        "wind_speed": 13.809449929478149,
+        "weather_code": 2.449929478138223
+    },
+    {
+        "month": 2,
+        "avg_temp": 15.067983074753178,
+        "max_temp": 24.9,
+        "min_temp": 5.6,
+        "humidity": 67.0818053596615,
+        "precipitation": 0.06177715091678422,
+        "wind_speed": 15.260930888575475,
+        "weather_code": 2.315937940761636
+    },
+    {
+        "month": 3,
+        "avg_temp": 15.883356840620607,
+        "max_temp": 24.9,
+        "min_temp": 7.0,
+        "humidity": 64.4851904090268,
+        "precipitation": 0.12863187588152328,
+        "wind_speed": 13.976586741889998,
+        "weather_code": 2.904090267983075
+    },
+    {
+        "month": 4,
+        "avg_temp": 17.52454160789845,
+        "max_temp": 32.5,
+        "min_temp": 6.0,
+        "humidity": 65.27503526093089,
+        "precipitation": 0.07813822284908323,
+        "wind_speed": 12.84485190409028,
+        "weather_code": 2.3497884344146684
+    },
+    {
+        "month": 5,
+        "avg_temp": 20.19139633286321,
+        "max_temp": 30.7,
+        "min_temp": 9.5,
+        "humidity": 53.605077574047954,
+        "precipitation": 0.011283497884344145,
+        "wind_speed": 15.55966149506346,
+        "weather_code": 1.614950634696756
+    },
+    {
+        "month": 6,
+        "avg_temp": 23.649929478138258,
+        "max_temp": 35.8,
+        "min_temp": 16.0,
+        "humidity": 57.80677009873061,
+        "precipitation": 0.001833568406205924,
+        "wind_speed": 13.772496473906914,
+        "weather_code": 1.5557122708039492
+    },
+    {
+        "month": 7,
+        "avg_temp": 26.498871650211562,
+        "max_temp": 40.4,
+        "min_temp": 19.1,
+        "humidity": 58.11706629055007,
+        "precipitation": 0.031311706629055004,
+        "wind_speed": 14.15669957686883,
+        "weather_code": 1.4146685472496474
+    },
+    {
+        "month": 8,
+        "avg_temp": 28.177856135402003,
+        "max_temp": 41.5,
+        "min_temp": 22.0,
+        "humidity": 65.40056417489421,
+        "precipitation": 0.000846262341325811,
+        "wind_speed": 13.029901269393516,
+        "weather_code": 1.4386459802538787
+    },
+    {
+        "month": 9,
+        "avg_temp": 25.24753173483782,
+        "max_temp": 35.2,
+        "min_temp": 19.0,
+        "humidity": 62.98166431593794,
+        "precipitation": 0.023977433004231316,
+        "wind_speed": 13.997602256699583,
+        "weather_code": 1.8787023977433004
+    },
+    {
+        "month": 10,
+        "avg_temp": 21.30677009873065,
+        "max_temp": 34.8,
+        "min_temp": 11.9,
+        "humidity": 69.04654442877292,
+        "precipitation": 0.2502115655853315,
+        "wind_speed": 13.116361071932317,
+        "weather_code": 3.3610719322990126
+    },
+    {
+        "month": 11,
+        "avg_temp": 17.64330042313117,
+        "max_temp": 25.1,
+        "min_temp": 12.0,
+        "humidity": 81.64456981664316,
+        "precipitation": 0.10874471086036673,
+        "wind_speed": 11.418335684062065,
+        "weather_code": 2.8251057827926656
+    },
+    {
+        "month": 12,
+        "avg_temp": 14.281946403385035,
+        "max_temp": 23.5,
+        "min_temp": 5.0,
+        "humidity": 73.78420310296192,
+        "precipitation": 0.0012693935119887166,
+        "wind_speed": 14.85768688293369,
+        "weather_code": 1.997179125528914
+    }
+]
