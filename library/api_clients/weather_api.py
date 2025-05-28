@@ -6,9 +6,10 @@ A file to request an API call for weather_data
 from datetime import datetime
 from meteostat import Hourly, Point, Stations
 
-# Set time period
-start = datetime(2024, 1, 1)
-end = datetime(2024, 12, 31)
+# Set time period for a year
+past_year = datetime.now().year - 1
+start = datetime(past_year, 1, 1)
+end = datetime(past_year, 12, 31)
 
 def get_weather_data(lat, lon):
     """
