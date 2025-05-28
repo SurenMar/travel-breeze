@@ -1,3 +1,7 @@
+"""
+A file to request API calls for country data
+"""
+
 from geopy.geocoders import Nominatim
 
 # Initialize geocoder

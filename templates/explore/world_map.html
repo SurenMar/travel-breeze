@@ -20,7 +20,7 @@
         map.on('click', (event) => {
             let lat = event.latlng.lat
             let lon = event.latlng.lng
-            fetch(`/library/save-data?latitude=${lat}&longitude=${lon}`)
+            fetch(`/explore/save-data?latitude=${lat}&longitude=${lon}`)
         })
 
 
