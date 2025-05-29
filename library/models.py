@@ -55,7 +55,9 @@ class MonthlyWeather(models.Model):
         ]
         
     def __str__(self):
-        return f"{self.get_month_display()}: {self.destination.__str__()}"
+        display = f"\n{self.month}: {self.avg_temp}, {self.wind_speed}\n"
+        print('here')
+        return display
 
         
 

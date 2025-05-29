@@ -17,8 +17,14 @@ def get_country_data(lat, lon):
     # Extract city and country, return None if error is encountered
     if location and location.raw.get('address'):
         address = location.raw['address']
-        city = address.get('city', address.get('town', address.get('village')))
         country = address.get('country')
+        city = address.get('city', address.get('town', address.get('village')))
+        
+        # Set names to 'N/A' if None was returned
+        if country == None:
+            country = 'N/A'
+        if city == None:
+            city = 'N/A'
         return country, city
     else:
         return None, None
