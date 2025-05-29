@@ -12,7 +12,7 @@ def save_destination(user1, country, city):
     # For testing purposes
     user = User.objects.get(username='testuser')
     
-    # Create destination instance witg given inputs
+    # Create destination instance with given inputs
     destination = Destination.objects.create(
         owner = user,
         country = country,
