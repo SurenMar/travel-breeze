@@ -3,7 +3,6 @@ A file containing functions used to store processed data into database
 """
 
 from library.models import Destination, MonthlyWeather
-from django.contrib.auth.models import User # testing purposes
 
 def save_destination(user, country, city):
     """
