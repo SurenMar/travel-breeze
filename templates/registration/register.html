@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <h3>Create an account</h3>
+{% endblock head %}
+
+{% block body %}
+    {% if form.errors %}
+        <p>Please try again.</p>
+    {% endif %}
+
+    <form action='{% url "accounts:register" %}' method='post'>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button name='submit'>Create account</button>
+    </form>
+{% endblock body %}

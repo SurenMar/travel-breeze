@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Import models
-from library.models import Destination, MonthlyWeather
+from .models import Destination
 
 def destination_list(request):
     destinations = Destination.objects.order_by('date_added')
