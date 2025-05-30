@@ -8,5 +8,5 @@ urlpatterns = [
     path('', views.destination_list, name='destination_list'),
     
     # Show selected destination
-    path('destination/', views.destination_detail, name='destination_detail'),
+    path('destination/<int:destination_id>/', views.destination_detail, name='destination_detail'),
 ]

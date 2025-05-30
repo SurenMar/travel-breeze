@@ -2,4 +2,10 @@
 
 {% block head %}
     <h3>'a specific destination'</h3>
+    <ul>
+        {% for month_data in weather_data %}
+            <li>{{ month_data.month }}: {{ month_data.avg_temp }}, {{ month_data.weather_code }}</li>
+        {% empty %}
+            <p>Error occured, please save this destination again</p>
+        {% endfor %}
 {% endblock head %}

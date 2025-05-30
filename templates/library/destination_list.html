@@ -6,4 +6,15 @@
 
 {% block body %}
     <p>'list of all destinations'</p>
+    <ul>
+        {% for destination in destinations %}
+            <li>
+                <a href='{% url "library:destination_detail" destination.id %}'>
+                    {{ destination.city }}, {{ destination.country }}
+                </a>
+            </li>
+        {% empty %}
+            <p>No saved destinations</p>
+        {% endfor %}
+    </ul>
 {% endblock body %}
