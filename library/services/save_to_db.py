@@ -5,12 +5,10 @@ A file containing functions used to store processed data into database
 from library.models import Destination, MonthlyWeather
 from django.contrib.auth.models import User # testing purposes
 
-def save_destination(user1, country, city):
+def save_destination(user, country, city):
     """
     A function that saves data to Destination model
     """
-    # For testing purposes
-    user = User.objects.get(username='testuser')
     
     # Create destination instance with given inputs
     destination = Destination.objects.create(

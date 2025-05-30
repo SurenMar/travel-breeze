@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Import api clients
 from library.api_clients.weather_api import get_weather_data
@@ -12,10 +13,13 @@ from library.utils.analysis import monthly_weather_avgs
 # Import services
 from library.services.save_to_db import save_destination, save_monthly_weather
 
+@login_required
 def world_map(request):
     context = {'title': 'Explore'}
     return render(request, 'explore/world_map.html', context)
 
+
+@login_required
 def save_data(request):
     """
     A view which gets data, parses it, and stores in database

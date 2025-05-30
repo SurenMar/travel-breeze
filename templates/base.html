@@ -7,17 +7,18 @@
         <title>{{ title }}</title>
 
         <a href="{% url 'core:index' %}">Home</a> -
-        <a href="{% url 'accounts:login' %}">Login</a> -
-        <a href="{% url 'accounts:register' %}">Register</a> -
         <a href="{% url 'explore:world_map' %}">Explore</a> -
         <a href="{% url 'library:destination_list' %}">Library</a>
 
+        <hr />
         {% if user.is_authenticated %}
-            <hr />
             <form action='{% url "accounts:logout" %}' method='post'>
                 {% csrf_token %}
                 <button name='submit'>Log out</button>
             </form>
+        {% else %}
+            <a href="{% url 'accounts:login' %}">Login</a> -
+            <a href="{% url 'accounts:register' %}">Register</a>
         {% endif %}
 
         {% block head %}{% endblock head %}
