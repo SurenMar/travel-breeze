@@ -1,7 +1,7 @@
+# Import Django
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-import json
 
 # Import models
 from library.models import Destination
@@ -16,6 +16,9 @@ from library.utils.analysis import monthly_weather_avgs
 
 # Import services
 from library.services.save_to_db import save_destination, save_monthly_weather
+
+# Import other tools
+import json
 
 @login_required
 def world_map(request):
@@ -34,12 +37,12 @@ def save_data(request):
     """
     A view which gets data, parses it, and stores in database
     """
-    # Get latitude and longitude from user click
+    # Get latitude and longitude from user's clicks
     data = json.loads(request.body)
     destinations = data.get('destinations', [])
 
-    # Example: just print them (replace with your save logic)
     for dest in destinations:
+        # Debugging
         print('---------------------------------------------------------------------')
         lat = dest.get('latitude')
         lon = dest.get('longitude')

@@ -2,6 +2,16 @@
 
 {% block head %}
     <h3>'a specific destination'</h3>
+    <div>
+        <form action='{% url "library:destination_detail" destination.id %}' method='post'>
+            {% csrf_token %}
+            <button name="temp">Temperature</button>
+            <button name="humidity">Humidity</button>
+            <button name="prcp">Precipitation</button>
+            <button name="wdsp">Wind Speed</button>
+        </form>
+    </div>
+    {{ chart|safe }}
     <ul>
         {% for month_data in weather_data %}
             <li>{{ month_data.month }}: {{ month_data.avg_temp }}, {{ month_data.weather_code }}</li>
