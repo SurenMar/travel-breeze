@@ -14,6 +14,10 @@ class Destination(models.Model):
     country = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     
+    # Location information
+    latitude = models.FloatField(default=0.0)
+    longitude = models.FloatField(default=0.0)
+    
     class Meta:
         ordering = ['-date_added']
 

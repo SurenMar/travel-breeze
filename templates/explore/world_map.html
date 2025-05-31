@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
+    <button onClick='sendMarkers()'>Save Destinations</button>
+
     <div id='map' style='height: 600px; width: 900px;'></div>
+    {{ destinations|json_script:'destinations_json' }}
+
     <script>
         var map = L.map('map').setView([51.505, -0.09], 2);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -17,12 +21,51 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        // Add marker for each destination
+        let destinations = JSON.parse(document.getElementById('destinations_json').textContent)
+        destinations.forEach(destination => {
+            L.marker([destination.latitude, destination.longitude]).addTo(map)
+        })
+
+        // Save lat and lon values upon click to markers list
+        let newMarkers =[]
         map.on('click', (event) => {
             let lat = event.latlng.lat
             let lon = event.latlng.lng
-            fetch(`/explore/save-data?latitude=${lat}&longitude=${lon}`)
+            L.marker([lat, lon]).addTo(map)
+            newMarkers.push({ latitude: lat, longitude: lon })
+            //fetch(`/explore/save-data?latitude=${lat}&longitude=${lon}`)
         })
 
+        function getCookie(name) {
+            let cookieValue = null
+            if (document.cookie && document.cookie !== '') {
+                let cookies = document.cookie.split(';')
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim()
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+                        break
+                    }
+                }
+            }
+            return cookieValue
+        }        
+
+        function sendMarkers() {
+            fetch('/explore/save-data/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ destinations: newMarkers })
+            }).then(response => {
+                if (response.ok) {
+                    newMarkers = []
+                }
+            })
+        }
 
     </script>
 {% endblock body %}

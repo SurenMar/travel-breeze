@@ -4,16 +4,17 @@ A file containing functions used to store processed data into database
 
 from library.models import Destination, MonthlyWeather
 
-def save_destination(user, country, city):
+def save_destination(user, country, city, lat, lon):
     """
     A function that saves data to Destination model
     """
-    
     # Create destination instance with given inputs
     destination = Destination.objects.create(
         owner = user,
         country = country,
-        city = city
+        city = city,
+        latitude = lat,
+        longitude = lon,
     )
     return destination.pk   # Return primary key to store monthly data
 
