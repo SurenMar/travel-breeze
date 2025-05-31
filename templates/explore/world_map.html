@@ -13,6 +13,9 @@
     <div id="error-box" style="display:none; color: red; margin: 10px 0;">
         You have not selected a destination.
     </div>
+    <div id="saving-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
+        Saving...
+    </div>
       
 
     <div id='map' style='height: 600px; width: 900px;'></div>
@@ -41,6 +44,14 @@
             //fetch(`/explore/save-data?latitude=${lat}&longitude=${lon}`)
         })
 
+        function showSpinner() {
+            document.getElementById('saving-indicator').style.display = 'block';
+        }
+        
+        function hideSpinner() {
+            document.getElementById('saving-indicator').style.display = 'none';
+        }
+
         function getCookie(name) {
             let cookieValue = null
             if (document.cookie && document.cookie !== '') {
@@ -58,6 +69,7 @@
 
         function sendMarkers() {
             const errorBox = document.getElementById('error-box');
+            showSpinner()
             if (newMarkers.length === 0) {
                 // Show the error message
                 errorBox.style.display = 'block';
@@ -77,6 +89,7 @@
             }).then(response => {
                 if (response.ok) {
                     newMarkers = []
+                    hideSpinner()
                 }
             })
         }

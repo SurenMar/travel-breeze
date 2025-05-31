@@ -15,14 +15,13 @@ def get_country_data(lat, lon):
     """
     A function to return country and city name based on coordinate values
     """
-    # Perform reverse geocoding
+    # Perform reverse geocoding with delay
     MAX_ATTEMPTS = 5
     for _ in range(MAX_ATTEMPTS):
         try:
             location = geolocator.reverse((lat, lon), language='en')
         except GeocoderTimedOut:
             sleep(1)
-    
 
     # Extract city and country, return None if error is encountered
     if location and location.raw.get('address'):
