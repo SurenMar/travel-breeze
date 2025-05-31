@@ -28,7 +28,7 @@ def get_country_data(lat, lon):
         address = location.raw['address']
         country = address.get('country')
         city = address.get('city', address.get('town', address.get('village'))) \
-            or 'A city in'
+            or 'Somewhere in'
         return country, city
     else:
         return None, None
