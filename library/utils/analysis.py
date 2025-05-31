@@ -36,7 +36,7 @@ def monthly_weather_avgs(data):
                 'max_temp': max_temp,
                 'min_temp': min_temp,
                 'humidity': humidity / HOURS_IN_MONTH,
-                'precipitation': precipitation / HOURS_IN_MONTH,
+                'precipitation': precipitation,
                 'wind_speed': wind_speed / HOURS_IN_MONTH,
                 'weather_code': weather_code / HOURS_IN_MONTH,
             }

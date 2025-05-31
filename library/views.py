@@ -26,23 +26,42 @@ def destination_detail(request, destination_id):
     if destination.owner != request.user:
         raise Http404
     
-    data = []
+    # Initialize variables for graph
+    data, y_bounds = [], []
+    title, y_label = '', ''
     weather_data = destination.monthly_stats.order_by('month')
-    if request.method == 'POST':
-        if 'temp' in request.POST:
-            data = [wd.avg_temp for wd in weather_data]
-        elif 'humidity' in request.POST:
-            data = [wd.humidity for wd in weather_data]
-        elif 'prcp' in request.POST:
-            data = [wd.precipitation for wd in weather_data]
-        elif 'wdsp' in request.POST:
-            data = [wd.wind_speed for wd in weather_data]
+     
+    if 'humidity' in request.GET:
+        data = [wd.humidity for wd in weather_data]
+        title = 'Average Monthly Humidity'
+        y_label = 'Humidity'
+        y_bounds = [0, 100]
+        
+    elif 'prcp' in request.GET:
+        data = [wd.precipitation for wd in weather_data]
+        title = 'Average Monthly Precipitation'
+        y_label = 'Precipitation'
+        y_bounds = [0, 500]
+        
+    elif 'wdsp' in request.GET:
+        data = [wd.wind_speed for wd in weather_data]
+        title = 'Average Monthly Wind Speed'
+        y_label = 'Wind Speed'
+        y_bounds = [0, 25]
+        
     else:
         data = [wd.avg_temp for wd in weather_data]
+        data = [wd.avg_temp for wd in weather_data]
+        title = 'Average Monthly Temprature'
+        y_label = 'Temprature'
+        y_bounds = [-50, 50]
     
     fig = px.bar(
         x=[i+1 for i in range(12)],
         y=data,
+        labels={'x': 'Months', 'y': y_label},
+        title=title,
+        range_y=y_bounds,
     )
     chart = fig.to_html()
     context = {

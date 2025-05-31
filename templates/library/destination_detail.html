@@ -3,7 +3,7 @@
 {% block head %}
     <h3>'a specific destination'</h3>
     <div>
-        <form action='{% url "library:destination_detail" destination.id %}' method='post'>
+        <form action='{% url "library:destination_detail" destination.id %}' method='get'>
             {% csrf_token %}
             <button name="temp">Temperature</button>
             <button name="humidity">Humidity</button>
