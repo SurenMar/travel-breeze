@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<div>
+    <form action='{% url "library:destination_detail" destination.id %}' method='post'>
+        {% csrf_token %}
+        <button name='delete'>Delete Destination</button>
+    </form>
+</div>
     {% if destination.city == 'Somewhere in' %}
         <h3>{{ destination.city }} {{ destination.country }}</h3>
     {% else %}

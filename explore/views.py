@@ -49,7 +49,6 @@ def save_data(request):
         if country_form.is_valid() and city_form.is_valid():
             country = country_form.cleaned_data['country']
             city = city_form.cleaned_data['city']
-            print(city, country)
             
             coords = get_coord_data(city, country)
             lat, lon = coords['latitude'], coords['longitude']

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
@@ -72,6 +72,10 @@ def destination_detail(request, destination_id):
     # Verify destination belongs to current user
     if destination.owner != request.user:
         raise Http404
+    
+    if 'delete' in request.POST:
+        destination.delete()
+        return redirect('library:destination_list')
     
     # Get weather data for desired destination
     weather_data = destination.monthly_stats.order_by('month')
