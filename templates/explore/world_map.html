@@ -11,19 +11,32 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <button onClick='resetMarkers()'>Reset markers</button>
-    <button onClick='sendMarkers()'>Save Destinations</button>
+    <button onClick='saveLocation()'>Save Destinations</button>
     <div id="error-no-dest" style="display:none; color: red; margin: 10px 0;">
         You have not selected a destination.
     </div>
     <div id="error-no-stations" style="display:none; color: red; margin: 10px 0;">
-        Sorry, one of your selected locations has no valid weather stations nearby.
+        Sorry, some of your selected locations have no valid weather stations nearby.
+    </div>
+    <div id="error-location" style="display:none; color: red; margin: 10px 0;">
+        Sorry, this location could not be found.
     </div>
     <div id="saving-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
         Saving...
     </div>
+    <div id="adding-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
+        Adding...
+    </div>
       
 
     <div id='map' style='height: 600px; width: 900px;'></div>
+    <form id="enter-location-form" action="{% url 'explore:save_data' %}" method="post">
+        {% csrf_token %}
+        {{ country_form.as_div }}
+        {{ city_form.as_div }}
+        <button name="enter_location">Enter Location</button>
+    </form>
+
     {{ destinations|json_script:'destinations_json' }}
 
     <script src="{% static 'explore/world_map.js' %}"></script>

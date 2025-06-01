@@ -1,61 +1,124 @@
-// Create leafletjs map and set bounds
+// Existing code (map setup, marker handling, etc.) remains unchanged
 var map = L.map('map').setView([51.505, -0.09], 2);
 map.setMaxBounds(map.getBounds());
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 15,
     minZoom: 2,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// Add marker for each destination
-let destinations = JSON.parse(document.getElementById('destinations_json').textContent)
+let destinations = JSON.parse(document.getElementById('destinations_json').textContent);
 destinations.forEach(destination => {
-    L.marker([destination.latitude, destination.longitude]).addTo(map)
-})
+    L.marker([destination.latitude, destination.longitude]).addTo(map);
+});
 
-// Save lat and lon values upon click to markers list
-let newCoords = []
-let newMarkers = []
+let newCoords = [];
+let newMarkers = [];
 map.on('click', (event) => {
-    let lat = event.latlng.lat
-    let lon = event.latlng.lng
-    newMarkers.push(L.marker([lat, lon]).addTo(map))
-    newCoords.push({ latitude: lat, longitude: lon })
-})
+    let lat = event.latlng.lat;
+    let lon = event.latlng.lng;
+    newMarkers.push(L.marker([lat, lon]).addTo(map));
+    newCoords.push({ latitude: lat, longitude: lon });
+});
 
 function resetMarkers() {
-    newCoords = []
+    newCoords = [];
     newMarkers.forEach(marker => {
-        marker.remove()
-    })
-    newMarkers = []
+        marker.remove();
+    });
+    newMarkers = [];
 }
 
-function showSpinner() {
+function showSaveSpinner() {
     document.getElementById('saving-indicator').style.display = 'block';
 }
 
-function hideSpinner() {
+function hideSaveSpinner() {
     document.getElementById('saving-indicator').style.display = 'none';
 }
 
+function showAddSpinner() {
+    document.getElementById('adding-indicator').style.display = 'block';
+}
+
+function hideAddSpinner() {
+    document.getElementById('adding-indicator').style.display = 'none';
+}
+
 function getCookie(name) {
-    let cookieValue = null
+    let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        let cookies = document.cookie.split(';')
+        let cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim()
+            let cookie = cookies[i].trim();
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-                break
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
     }
-    return cookieValue
-}        
+    return cookieValue;
+}
 
-function sendMarkers() {
+// Intercept form submission
+document.getElementById('enter-location-form').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default form submission
+    addLocation();
+});
+
+// New function to handle form submission
+function addLocation() {
+    const errorLocation = document.getElementById('error-location');
+    const errorNoDest = document.getElementById('error-no-dest');
+    const errorNoStations = document.getElementById('error-no-stations');
+    const countryInput = document.querySelector('input[name="country"]').value;
+    const cityInput = document.querySelector('input[name="city"]').value;
+
+    errorLocation.style.display = 'none';
+    errorNoDest.style.display = 'none';
+    errorNoStations.style.display = 'none';
+
+    showAddSpinner();
+
+    // Use FormData to mimic a traditional form submission
+    const formData = new FormData();
+    formData.append('save_location', 'true');
+    formData.append('country', countryInput);
+    formData.append('city', cityInput);
+    formData.append('enter_location', 'true'); // Add this to match the view's condition
+
+    fetch('/explore/save-data/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: formData // Send as FormData to match application/x-www-form-urlencoded
+    })
+        .then(response => {
+            hideAddSpinner();
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.location_error) {
+                errorLocation.style.display = 'block';
+            } else if (data.lat && data.lon) {
+                newMarkers.push(L.marker([data.lat, data.lon]).addTo(map));
+                newCoords.push({ latitude: data.lat, longitude: data.lon });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            hideAddSpinner();
+            errorLocation.style.display = 'block'; // Show error on failure
+        });
+}
+
+// Function that sends selected locations to save_data view
+function saveLocation() {
     const errorNoDest = document.getElementById('error-no-dest');
     const errorNoStations = document.getElementById('error-no-stations')
     errorNoStations.style.display = 'none'
@@ -67,7 +130,7 @@ function sendMarkers() {
         errorNoDest.style.display = 'none';
     }
 
-    showSpinner()
+    showSaveSpinner()
     
     fetch('/explore/save-data/', {
         method: 'POST',
@@ -79,7 +142,7 @@ function sendMarkers() {
     // Process response and display any errors if needed
     }).then(response => {
         newCoords = []
-        hideSpinner()
+        hideSaveSpinner()
         return response.json()
     }).then(data => {
         // Remove markers of any invalid destination coordinates

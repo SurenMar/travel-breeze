@@ -3,12 +3,13 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-# Import models
+# Import models and forms
 from library.models import Destination
+from library.forms import CountryForm, CityForm
 
 # Import api clients
 from library.api_clients.weather_api import get_weather_data
-from library.api_clients.country_api import get_country_data
+from library.api_clients.country_api import get_country_data, get_coord_data
 
 # Import utils
 from library.utils.parsers import parse_weather_data
@@ -25,9 +26,13 @@ def world_map(request):
     # Get the coordinates of all destination of current user
     destinations = list(Destination.objects.filter(owner=request.user) \
         .values('latitude', 'longitude'))
+    country_form = CountryForm()
+    city_form = CityForm()
     context = {
         'title': 'Explore',
         'destinations': destinations,
+        'country_form': country_form,
+        'city_form': city_form,
     }
     return render(request, 'explore/world_map.html', context)
 
@@ -37,6 +42,28 @@ def save_data(request):
     """
     A view which gets data, parses it, and stores in database
     """
+    if 'enter_location' in request.POST:
+        country_form = CountryForm(data=request.POST)
+        city_form = CityForm(data=request.POST)
+        
+        if country_form.is_valid() and city_form.is_valid():
+            country = country_form.cleaned_data['country']
+            city = city_form.cleaned_data['city']
+            print(city, country)
+            
+            coords = get_coord_data(city, country)
+            lat, lon = coords['latitude'], coords['longitude']
+            if not lat or not lon:
+                return JsonResponse({
+                    'location_error': True,
+                }, status=400)
+            else:
+                return JsonResponse({
+                    'lat': lat,
+                    'lon': lon,
+                }, status=200)
+            
+    
     # Get latitude and longitude from user's clicks
     user_click = json.loads(request.body)
     destinations = user_click.get('destinations', [])
@@ -71,7 +98,7 @@ def save_data(request):
             print(country)
             print(city)
     
-    # Return to frontend all invalid destinations
+    # Return all invalid destinations to frontend
     return JsonResponse({
         'invalid_dests': invalid_dests
     }, status=200)

@@ -32,3 +32,22 @@ def get_country_data(lat, lon):
         return country, city
     else:
         return None, None
+
+
+def get_coord_data(city, country):
+    """
+    A function to return coords of country and city
+    """
+    # Double check that neither input is an empty string
+    if not city or not country:
+        return None
+    # Perform geocoding with delay
+    MAX_ATTEMPTS = 5
+    for _ in range(MAX_ATTEMPTS):
+        try:
+            coords = geolocator.geocode(f'{city}, {country}')
+        except GeocoderTimedOut:
+            sleep(1)
+        
+    return {'latitude': coords.latitude, 'longitude': coords.longitude}
+    
