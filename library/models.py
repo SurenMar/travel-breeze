@@ -50,7 +50,7 @@ class MonthlyWeather(models.Model):
     # Wind information
     wind_speed = models.FloatField(null=True)
     # Other
-    weather_code = models.IntegerField(null=True)
+    weather_condition = models.CharField()
     
     class Meta:
         ordering = ['month']

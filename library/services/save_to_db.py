@@ -37,5 +37,5 @@ def save_monthly_weather(destination_pk, weather_data):
             humidity = round(weather_data[month]['humidity'], 1),
             precipitation = int(weather_data[month]['precipitation']),
             wind_speed = round(weather_data[month]['wind_speed'], 1),
-            weather_code = int(weather_data[month]['weather_code']),
+            weather_condition = weather_data[month]['weather_condition'],
         )

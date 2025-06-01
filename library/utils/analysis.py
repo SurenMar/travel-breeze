@@ -2,6 +2,38 @@
 This file contains functions which perform data analysis on parsed data
 """
 
+def _get_weather_condition(weather_code):
+    """
+    A helper function to lookup the weather condition
+    """
+    weather_conditions = [
+        "Clear",                     # 0
+        "Fair",                      # 1
+        "Partly cloudy",             # 2
+        "Cloudy",                    # 3
+        "Overcast",                  # 4
+        "Fog",                       # 5
+        "Freezing fog",              # 6
+        "Light rain",                # 7
+        "Rain",                      # 8
+        "Heavy rain",                # 9
+        "Freezing rain",             # 10
+        "Heavy freezing rain",       # 11
+        "Sleet",                     # 12
+        "Heavy sleet",               # 13
+        "Light snow",                # 14
+        "Snow",                      # 15
+        "Heavy snow",                # 16
+        "Snow grains",               # 17
+        "Rain showers",              # 18
+        "Heavy rain showers",        # 19
+        "Snow showers",              # 20
+        "Heavy snow showers",        # 21
+        "Thunderstorm",              # 22
+        "Thunderstorm with hail"     # 23
+    ]
+    return weather_conditions[weather_code]
+
 def monthly_weather_avgs(data):
     """
     This function finds monthly weather averages given data
@@ -38,7 +70,8 @@ def monthly_weather_avgs(data):
                 'humidity': humidity / HOURS_IN_MONTH,
                 'precipitation': precipitation,
                 'wind_speed': wind_speed / HOURS_IN_MONTH,
-                'weather_code': weather_code / HOURS_IN_MONTH,
+                'weather_condition': _get_weather_condition(
+                    int(round(weather_code / HOURS_IN_MONTH, 0))),
             }
             monthly_data.append(averages)
             month += 1

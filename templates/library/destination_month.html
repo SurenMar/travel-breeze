@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
+    <a href='{% url "library:destination_detail" destination.id %}'>Back</a>
     <h3>Weather in {{ month }}</h3>
 {% endblock head %}
 
@@ -11,6 +12,7 @@
     <p>Humidity: {{ month_data.humidity }}</p>
     <p>Precipitation: {{ month_data.precipitation }}</p>
     <p>Wind speed: {{ month_data.wind_speed }}</p>
+    <p>Average weather condition: {{ month_data.weather_condition }}</p>
     {% include "library/month_links.html" %}
 {% endblock body %}
 
