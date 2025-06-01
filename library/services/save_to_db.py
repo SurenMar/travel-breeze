@@ -31,11 +31,11 @@ def save_monthly_weather(destination_pk, weather_data):
         MonthlyWeather.objects.create(
             destination = destination,
             month = weather_data[month]['month'],
-            avg_temp = weather_data[month]['avg_temp'],
-            max_temp = weather_data[month]['max_temp'],
-            min_temp = weather_data[month]['min_temp'],
-            humidity = weather_data[month]['humidity'],
-            precipitation = weather_data[month]['precipitation'],
-            wind_speed = weather_data[month]['wind_speed'],
-            weather_code = weather_data[month]['weather_code'],
+            avg_temp = round(weather_data[month]['avg_temp'], 1),
+            max_temp = round(weather_data[month]['max_temp'], 1),
+            min_temp = round(weather_data[month]['min_temp'], 1),
+            humidity = round(weather_data[month]['humidity'], 1),
+            precipitation = int(weather_data[month]['precipitation']),
+            wind_speed = round(weather_data[month]['wind_speed'], 1),
+            weather_code = int(weather_data[month]['weather_code']),
         )

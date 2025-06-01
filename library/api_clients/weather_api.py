@@ -21,19 +21,22 @@ def get_weather_data(lat, lon):
     data = Hourly(location, start, end).fetch()
     
     # Return data if information was found
+    print(f'0: {len(data)}')
     if not data.empty:
         return data
-    
+    print(f'1: {len(data)}')
     # Find data through 5 nearest stations if above fails
-    stations = Stations().nearby(lat, lon).fetch(5)
+    stations = Stations().nearby(lat, lon).fetch(10)
 
     for idx, row in stations.iterrows():
         # Return data if information was found
         data = Hourly(idx, start, end).fetch()
+        print('here')
         if not data.empty:
+            print(f'2: {len(data)}')
             return data
     
     # If this is reached, None will be returned
-    return data
+    return None
     
     

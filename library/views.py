@@ -28,41 +28,52 @@ def destination_detail(request, destination_id):
     
     # Initialize variables for graph
     data, y_bounds = [], []
-    title, y_label = '', ''
+    title, y_label, suffix = '', '', ''
     weather_data = destination.monthly_stats.order_by('month')
+    MONTHS = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ]
      
     if 'humidity' in request.GET:
         data = [wd.humidity for wd in weather_data]
         title = 'Average Monthly Humidity'
         y_label = 'Humidity'
-        y_bounds = [0, 100]
+        suffix = '%'
         
     elif 'prcp' in request.GET:
         data = [wd.precipitation for wd in weather_data]
         title = 'Average Monthly Precipitation'
         y_label = 'Precipitation'
-        y_bounds = [0, 500]
+        suffix = ' mm'
         
     elif 'wdsp' in request.GET:
         data = [wd.wind_speed for wd in weather_data]
         title = 'Average Monthly Wind Speed'
         y_label = 'Wind Speed'
-        y_bounds = [0, 25]
+        suffix = ' km/h'
         
     else:
         data = [wd.avg_temp for wd in weather_data]
         data = [wd.avg_temp for wd in weather_data]
         title = 'Average Monthly Temprature'
         y_label = 'Temprature'
-        y_bounds = [-50, 50]
+        suffix = ' °C'
     
+    y_bounds = [min(0, min(data)) * 1.3, max(data) * 1.3]
     fig = px.bar(
-        x=[i+1 for i in range(12)],
+        x=MONTHS,
         y=data,
         labels={'x': 'Months', 'y': y_label},
         title=title,
         range_y=y_bounds,
     )
+    fig.update_layout(
+        yaxis=dict(
+            ticksuffix=suffix
+        )
+    )
+    
     chart = fig.to_html()
     context = {
         'title': 'city name',
