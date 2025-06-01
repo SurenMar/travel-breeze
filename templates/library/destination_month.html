@@ -5,7 +5,12 @@
 {% endblock head %}
 
 {% block body %}
-    
+    <p>Average temperature: {{ month_data.avg_temp }}</p>
+    <p>Maximum temperature: {{ month_data.max_temp }}</p>
+    <p>Minimum temperature: {{ month_data.min_temp }}</p>
+    <p>Humidity: {{ month_data.humidity }}</p>
+    <p>Precipitation: {{ month_data.precipitation }}</p>
+    <p>Wind speed: {{ month_data.wind_speed }}</p>
     {% include "library/month_links.html" %}
 {% endblock body %}
 

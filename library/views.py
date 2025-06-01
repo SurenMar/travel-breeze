@@ -96,7 +96,7 @@ def destination_detail(request, destination_id):
     
     chart = fig.to_html()
     context = {
-        'title': 'city name',
+        'title': 'detailed forecast',
         'weather_data': weather_data,
         'chart': chart,
         'destination': destination
@@ -111,7 +111,12 @@ def destination_month(request, destination_id, month):
     if destination.owner != request.user:
         raise Http404
     
+    month_data = destination.monthly_stats.get(month=month)
+    
     context = {
-        'month': MONTHS[month-1]
+        'title': 'detailed forecast',
+        'month': MONTHS[month-1],
+        'month_data': month_data,
+        'destination': destination,
     }
     return render(request, 'library/destination_month.html', context)
