@@ -10,7 +10,11 @@
         {% for destination in destinations %}
             <li>
                 <a href='{% url "library:destination_detail" destination.id %}'>
-                    {{ destination.city }}, {{ destination.country }}
+                    {% if destination.city == 'Somewhere in' %}
+                        {{ destination.city }} {{ destination.country }}
+                    {% else %}
+                        {{ destination.city }}, {{ destination.country }}
+                    {% endif %}
                 </a>
             </li>
         {% empty %}

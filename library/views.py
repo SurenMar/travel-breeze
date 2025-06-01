@@ -26,6 +26,8 @@ def destination_detail(request, destination_id):
     if destination.owner != request.user:
         raise Http404
     
+    if request.method == 'POST' and 'back' in request.POST:
+        return render(request, 'library')
     # Initialize variables for graph
     data, y_bounds = [], []
     title, y_label, suffix = '', '', ''
