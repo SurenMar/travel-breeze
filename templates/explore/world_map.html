@@ -12,8 +12,11 @@
 
     <button onClick='resetMarkers()'>Reset markers</button>
     <button onClick='sendMarkers()'>Save Destinations</button>
-    <div id="error-box" style="display:none; color: red; margin: 10px 0;">
+    <div id="error-no-dest" style="display:none; color: red; margin: 10px 0;">
         You have not selected a destination.
+    </div>
+    <div id="error-no-stations" style="display:none; color: red; margin: 10px 0;">
+        Sorry, one of your selected locations has no valid weather stations nearby.
     </div>
     <div id="saving-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
         Saving...

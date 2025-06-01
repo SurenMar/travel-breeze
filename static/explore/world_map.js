@@ -56,14 +56,15 @@ function getCookie(name) {
 }        
 
 function sendMarkers() {
-    const errorBox = document.getElementById('error-box');
+    const errorNoDest = document.getElementById('error-no-dest');
+    const errorNoStations = document.getElementById('error-no-stations')
+    errorNoStations.style.display = 'none'
+    // Check if user has clicked on the map
     if (newMarkers.length === 0) {
-        // Show the error message
-        errorBox.style.display = 'block';
-        return;  // Stop here, don’t send the request
+        errorNoDest.style.display = 'block';
+        return;
     } else {
-        // Hide the error message if visible
-        errorBox.style.display = 'none';
+        errorNoDest.style.display = 'none';
     }
 
     showSpinner()
@@ -75,10 +76,31 @@ function sendMarkers() {
             'X-CSRFToken': getCookie('csrftoken')
         },
         body: JSON.stringify({ destinations: newCoords })
+    // Process response and display any errors if needed
     }).then(response => {
-        if (response.ok) {
-            newCoords = []
-            hideSpinner()
+        newCoords = []
+        hideSpinner()
+        return response.json()
+    }).then(data => {
+        // Remove markers of any invalid destination coordinates
+        if (data.invalid_dests && data.invalid_dests.length > 0) {
+            console.log('Invalid destinations:', data.invalid_dests);
+            data.invalid_dests.forEach(invalid => {
+                for (let i = newMarkers.length - 1; i >= 0; i--) {
+                    const marker = newMarkers[i];
+                    const markerLatLng = marker.getLatLng();
+                    if (Math.abs(markerLatLng.lat - invalid.latitude) < 1e-6 &&
+                        Math.abs(markerLatLng.lng - invalid.longitude) < 1e-6) {
+                        marker.remove();
+                        newMarkers.splice(i, 1);
+                        newCoords.splice(i, 1);
+                    }
+                }
+            });
+            errorNoStations.style.display = 'block';
+        } else {
+            errorNoStations.style.display = 'none';
         }
+        newMarkers = []
     })
 }

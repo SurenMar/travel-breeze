@@ -38,8 +38,11 @@ def save_data(request):
     A view which gets data, parses it, and stores in database
     """
     # Get latitude and longitude from user's clicks
-    data = json.loads(request.body)
-    destinations = data.get('destinations', [])
+    user_click = json.loads(request.body)
+    destinations = user_click.get('destinations', [])
+    
+    # List of all the destinations which dont give enough data
+    invalid_dests = []
 
     for dest in destinations:
         # Debugging
@@ -50,21 +53,25 @@ def save_data(request):
         # Get country and city name through API (no need to parse)
         country, city = get_country_data(lat, lon)
         
-        # Get weather data through API call, parse it and analyze it
-        raw_data = get_weather_data(lat, lon)
-        parsed_data = parse_weather_data(raw_data)
-        data = monthly_weather_avgs(parsed_data)
+        # Get weather data through API call and parse it
+        raw_weather_data = get_weather_data(lat, lon)
+        parsed_weather_data = parse_weather_data(raw_weather_data)
+        # Check if parsing failed (no weather stations with needed data)
+        if len(parsed_weather_data) == 0:
+            invalid_dests.append(dest)
+        # Analyze data
+        else:
+            weather_data = monthly_weather_avgs(parsed_weather_data)
         
-        # for debugging
-        with open('data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        
-        # Save data to database
-        destination_pk = save_destination(request.user, country, city, lat, lon)
-        save_monthly_weather(destination_pk, data)
-        
-        print(len(data))
-        print(country)
-        print(city)
+            # Save data to database
+            destination_pk = save_destination(request.user, country, city, lat, lon)
+            save_monthly_weather(destination_pk, weather_data)
+            
+            print(len(weather_data))
+            print(country)
+            print(city)
     
-    return JsonResponse({})
+    # Return to frontend all invalid destinations
+    return JsonResponse({
+        'invalid_dests': invalid_dests
+    }, status=200)
