@@ -32,7 +32,7 @@ def get_country_data(lat, lon):
         print(country, city)
         return country, city
     else:
-        return None, None
+        return 'the ocean', 'Somewhere in'
 
 
 def get_coord_data(city, country):
