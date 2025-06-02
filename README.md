@@ -1,17 +1,17 @@
 # Travel Breeze
 
-**Travel Breeze** is a web application built with Django that provides historical monthly weather data for destinations around the world. Users can explore locations, view interactive climate visualizations, and save favorite places—all through a clean and intuitive interface.
+**Travel Breeze** is a web application built with **Django** that provides historical monthly weather data for destinations around the world. Users can explore locations, view interactive climate visualizations, and save favorite places—all through a clean and intuitive interface.
 
 ## Tech Stack
 
-**Backend:**
+### ⚙️ Backend
 - Django
 - SQLite
 - MeteoStat API (weather data)
 - Geopy / Nominatim API (location data)
 - Plotly (data visualization)
 
-**Frontend:**
+### 🎨 Frontend
 - HTML / Django Templates  
 - Tailwind CSS
 - JavaScript
@@ -36,11 +36,11 @@
 - View detailed data for any specific month.
 - Easily remove destinations from your library.
 
-### ❌ Smart Error Handling
+### ❌ Error Handling
 - Graceful feedback for invalid or duplicate inputs.
 - Alerts for non-existent locations or unsupported geocoding/MeteoStat results.
 
-## APIs and Data Handling
+## APIs and Data Processing
 
 ### 🌦️ Weather Data (MeteoStat)
 - Retrieves past year’s **hourly weather data** per location.
@@ -61,19 +61,14 @@
 - **Destination**: Stores location names, coordinates, and a foreign key to the user.
 - **MonthlyWeather**: Contains 12 records per destination (one for each month) with weather averages, and a foreign key to destination.
 
----
-
 ## 🎨 Frontend Overview
 
 - **HTML / Django Templates**: Utilizes template inheritance, dynamic content rendering, and Django forms.
-- **Tailwind CSS**: Provides modern utility-first styling with responsive layouts.
-- **JavaScript**: Handles interactive map logic and dynamic communication with Django views (AJAX-style updates).
+- **Tailwind CSS**: Provides modern styling with responsive layouts.
+- **JavaScript**: Handles map and button functionality with dynamic communication with Django views.
 - **Leaflet.js**: Renders the world map and handles marker logic.
-- **Plotly.js**: Displays dynamic charts for monthly weather trends.
-
----
 
 ## 📌 Notes
 
-- The frontend design and styling were initially generated using GenAI and then refined manually.
-- The project prioritizes clean UI/UX, performance, and modularity in both frontend and backend development.
+- The frontend styling was initially generated using GenAI and then refined manually.
+- This website as not been deployed.
