@@ -2,42 +2,140 @@
 {% load static %}
 
 {% block head %}
-    <h3>Explore</h3>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
 {% endblock head %}
 
 {% block body %}
-    <p>'world map'</p>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <main class="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
+        <section class="max-w-4xl w-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg p-8">
+            <!-- Header -->
+            <header class="mb-6 text-center">
+                <h3 class="text-2xl font-bold text-white">Explore</h3>
+            </header>
+
+            <!-- Map Section -->
+            <section class="relative mb-6 overflow-hidden">
+                <div id="map-loading" class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 rounded-lg">
+                    <p class="text-gray-900 text-sm">Loading map...</p>
+                </div>
+                <div id="map" style="height: 600px; width: 900px;" class="border border-gray-300 rounded-lg shadow-md"></div>
+            </section>
+
+            <!-- Error and Indicator Messages -->
+            <section class="space-y-2 mb-6">
+                <div id="error-no-dest" class="hidden text-red-300 text-sm text-center">
+                    You have not selected a destination.
+                </div>
+                <div id="error-no-stations" class="hidden text-red-300 text-sm text-center">
+                    Sorry, some of your selected locations have no valid weather stations nearby.
+                </div>
+                <div id="error-location" class="hidden text-red-300 text-sm text-center">
+                    Sorry, this location could not be found.
+                </div>
+                <div id="saving-indicator" class="hidden text-blue-300 font-bold text-sm text-center">
+                    Saving...
+                </div>
+                <div id="adding-indicator" class="hidden text-blue-300 font-bold text-sm text-center">
+                    Adding...
+                </div>
+            </section>
+
+            <!-- Form and Buttons -->
+            <section class="flex flex-col md:flex-row gap-6 items-start">
+                <!-- Inputs, Action Buttons, and Submit Button Row -->
+                <div class="flex flex-col md:flex-row gap-6 w-full">
+                    <!-- Input Fields -->
+                    <div class="flex-1 space-y-4">
+                        {% for field in country_form %}
+                            <div>
+                                <input type="{{ field.field.widget.input_type }}" 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.id_for_label }}" 
+                                    class="w-full bg-white text-gray-900 border-gray-300 border rounded-lg p-2 placeholder-gray-500"
+                                    {% if field.value %}value="{{ field.value }}"{% endif %}
+                                    placeholder="{{ field.label }}"
+                                    aria-required="true">
+                                {% if field.errors %}
+                                    <p class="text-red-300 text-sm mt-1">{{ field.errors.as_text }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        {% for field in city_form %}
+                            <div>
+                                <input type="{{ field.field.widget.input_type }}" 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.id_for_label }}" 
+                                    class="w-full bg-white text-gray-900 border-gray-300 border rounded-lg p-2 placeholder-gray-500"
+                                    {% if field.value %}value="{{ field.value }}"{% endif %}
+                                    placeholder="{{ field.label }}"
+                                    aria-required="true">
+                                {% if field.errors %}
+                                    <p class="text-red-300 text-sm mt-1">{{ field.errors.as_text }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Submit Button Form, aligned beside -->
+                    <form id="enter-location-form" action="{% url 'explore:save_data' %}" method="post" 
+                            class="self-stretch w-full md:w-auto flex items-stretch" aria-label="Enter location form">
+                        {% csrf_token %}
+                        <button type="submit" name="enter_location" 
+                                class="w-full bg-black text-white py-2 text-xl px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                aria-label="Enter location">
+                            Enter Location
+                        </button>
+                    </form>
+
+                    <!-- Action Buttons aligned with input fields -->
+                    <div class="flex flex-col gap-4 self-start w-full md:w-auto">
+                        <button type="button" onclick="resetMarkers()"
+                                class="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                aria-label="Reset map markers">
+                            Reset Markers
+                        </button>
+                        <button type="button" onclick="saveLocation()" 
+                                class="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                aria-label="Save destinations">
+                            Save Destinations
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Destinations JSON -->
+            {{ destinations|json_script:'destinations_json' }}
+        </section>
+    </main>
+
+    <!-- Leaflet Script -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <button onClick='resetMarkers()'>Reset markers</button>
-    <button onClick='saveLocation()'>Save Destinations</button>
-    <div id="error-no-dest" style="display:none; color: red; margin: 10px 0;">
-        You have not selected a destination.
-    </div>
-    <div id="error-no-stations" style="display:none; color: red; margin: 10px 0;">
-        Sorry, some of your selected locations have no valid weather stations nearby.
-    </div>
-    <div id="error-location" style="display:none; color: red; margin: 10px 0;">
-        Sorry, this location could not be found.
-    </div>
-    <div id="saving-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
-        Saving...
-    </div>
-    <div id="adding-indicator" style="display: none; color: blue; font-weight: bold; margin-top: 10px;">
-        Adding...
-    </div>
-      
-
-    <div id='map' style='height: 600px; width: 900px;'></div>
-    <form id="enter-location-form" action="{% url 'explore:save_data' %}" method="post">
-        {% csrf_token %}
-        {{ country_form.as_div }}
-        {{ city_form.as_div }}
-        <button name="enter_location">Enter Location</button>
-    </form>
-
-    {{ destinations|json_script:'destinations_json' }}
-
+    <!-- Fallback Map Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('map')) {
+                if (!window.map) {
+                    window.map = L.map('map').setView([0, 0], 2);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(window.map);
+                }
+                const loadingDiv = document.getElementById('map-loading');
+                if (loadingDiv) {
+                    loadingDiv.style.display = 'none';
+                }
+            }
+        });
+    </script>
+    <!-- Custom Map Script -->
     <script src="{% static 'explore/world_map.js' %}"></script>
 {% endblock body %}

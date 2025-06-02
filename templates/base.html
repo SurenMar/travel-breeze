@@ -1,29 +1,42 @@
-{% block content %}{% endblock content %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ title }}</title>
-
-        <a href="{% url 'core:index' %}">Home</a> -
-        <a href="{% url 'explore:world_map' %}">Explore</a> -
-        <a href="{% url 'library:destination_list' %}">Library</a>
-
-        <hr />
-        {% if user.is_authenticated %}
-            <form action='{% url "accounts:logout" %}' method='post'>
-                {% csrf_token %}
-                <button name='submit'>Log out</button>
-            </form>
-        {% else %}
-            <a href="{% url 'accounts:login' %}">Login</a> -
-            <a href="{% url 'accounts:register' %}">Register</a>
-        {% endif %}
-
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         {% block head %}{% endblock head %}
     </head>
-    <body>
-        {% block body %}{% endblock body %}
+    <body class="bg-gray-100 min-h-screen">
+        <!-- Navigation Bar -->
+        <header class="bg-white shadow-md">
+            <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="space-x-4">
+                    <a href="{% url 'core:index' %}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium">Home</a>
+                    <a href="{% url 'explore:world_map' %}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium">Explore</a>
+                    <a href="{% url 'library:destination_list' %}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium">Library</a>
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'accounts:logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" name="submit" class="bg-red-600 text-white py-1 px-3 rounded-lg hover:bg-red-700 transition-colors duration-200">
+                                Log out
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="space-x-4">
+                            <a href="{% url 'accounts:login' %}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium">Login</a>
+                            <a href="{% url 'accounts:register' %}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium">Register</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            {% block body %}{% endblock body %}
+        </main>
     </body>
 </html>

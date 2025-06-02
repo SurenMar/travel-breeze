@@ -1,17 +1,47 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block head %}
-    <h3>Create an account</h3>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 {% endblock head %}
 
 {% block body %}
-    {% if form.errors %}
-        <p>Please try again.</p>
-    {% endif %}
+    <div class="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
+        <div class="max-w-md w-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg p-8">
+            <!-- Header -->
+            <header class="mb-6 text-center">
+                <h3 class="text-2xl font-bold text-white">Create an Account</h3>
+            </header>
 
-    <form action='{% url "accounts:register" %}' method='post'>
-        {% csrf_token %}
-        {{ form.as_div }}
-        <button name='submit'>Create account</button>
-    </form>
+            <!-- Error Message -->
+            {% if form.errors %}
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg text-center">
+                    <p class="text-sm">Please correct the errors below and try again.</p>
+                </div>
+            {% endif %}
+
+            <!-- Registration Form -->
+            <form action="{% url 'accounts:register' %}" method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-4">
+                    {% for field in form %}
+                        <div>
+                            <input type="{{ field.field.widget.input_type }}" 
+                                   name="{{ field.name }}" 
+                                   id="{{ field.id_for_label }}" 
+                                   class="w-full bg-white text-gray-900 border-gray-300 border rounded-lg p-2 placeholder-gray-500"
+                                   {% if field.value %}value="{{ field.value }}"{% endif %}
+                                   placeholder="{{ field.label }}">
+                            {% if field.errors %}
+                                <p class="text-red-300 text-sm mt-1">{{ field.errors.as_text }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" name="submit" 
+                        class="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
 {% endblock body %}

@@ -9,7 +9,7 @@ from geopy.exc import GeocoderTimedOut
 from time import sleep
 
 # Initialize geocoder
-geolocator = Nominatim(user_agent="travel_breeze_country_api")
+geolocator = Nominatim(user_agent='travel_breeze_country_api')
 
 def get_country_data(lat, lon):
     """
@@ -26,9 +26,10 @@ def get_country_data(lat, lon):
     # Extract city and country, return None if error is encountered
     if location and location.raw.get('address'):
         address = location.raw['address']
-        country = address.get('country')
+        country = address.get('country') or 'the ocean'
         city = address.get('city', address.get('town', address.get('village'))) \
             or 'Somewhere in'
+        print(country, city)
         return country, city
     else:
         return None, None

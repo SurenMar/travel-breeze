@@ -1,18 +1,64 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <a href='{% url "library:destination_detail" destination.id %}'>Back</a>
-    <h3>Weather in {{ month }}</h3>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 {% endblock head %}
 
 {% block body %}
-    <p>Average temperature: {{ month_data.avg_temp }}</p>
-    <p>Maximum temperature: {{ month_data.max_temp }}</p>
-    <p>Minimum temperature: {{ month_data.min_temp }}</p>
-    <p>Humidity: {{ month_data.humidity }}</p>
-    <p>Precipitation: {{ month_data.precipitation }}</p>
-    <p>Wind speed: {{ month_data.wind_speed }}</p>
-    <p>Average weather condition: {{ month_data.weather_condition }}</p>
-    {% include "library/month_links.html" %}
-{% endblock body %}
+    <div class="container mx-auto px-4 py-8">
+        <!-- Back Navigation -->
+        <nav class="mb-6">
+            <a href="{% url 'library:destination_detail' destination.id %}" 
+               class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to Destination
+            </a>
+        </nav>
 
+        <!-- Weather Card -->
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="p-6 bg-gradient-to-r from-blue-500 to-blue-600">
+                <h3 class="text-2xl font-bold text-white">Weather in {{ month }}</h3>
+            </div>
+            <div class="p-6">
+                <dl class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Average Temperature</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.avg_temp }}°C</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Maximum Temperature</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.max_temp }}°C</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Minimum Temperature</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.min_temp }}°C</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Humidity</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.humidity }}%</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Precipitation</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.precipitation }} mm</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Wind Speed</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.wind_speed }} km/h</dd>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <dt class="text-gray-600 font-medium">Average Weather Condition</dt>
+                        <dd class="text-gray-900 font-semibold">{{ month_data.weather_condition }}</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Month Links -->
+        <div class="mt-6 max-w-2xl mx-auto text-center">
+            {% include "library/month_links.html" %}
+        </div>
+    </div>
+{% endblock body %}

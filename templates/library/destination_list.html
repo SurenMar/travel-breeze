@@ -1,24 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block head %}
-    <h3>Saved Destinations</h3>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 {% endblock head %}
 
 {% block body %}
-    <p>'list of all destinations'</p>
-    <ul>
-        {% for destination in destinations %}
-            <li>
-                <a href='{% url "library:destination_detail" destination.id %}'>
-                    {% if destination.city == 'Somewhere in' %}
-                        {{ destination.city }} {{ destination.country }}
-                    {% else %}
-                        {{ destination.city }}, {{ destination.country }}
-                    {% endif %}
-                </a>
-            </li>
-        {% empty %}
-            <p>No saved destinations</p>
-        {% endfor %}
-    </ul>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-800">Saved Destinations</h3>
+        </header>
+
+        <!-- Destinations List -->
+        <div class="max-w-3xl mx-auto">
+            {% if destinations %}
+                <ul class="space-y-4">
+                    {% for destination in destinations %}
+                        <li class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                            <a href="{% url 'library:destination_detail' destination.id %}" 
+                               class="block p-4 text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                {% if destination.city == 'Somewhere in' %}
+                                    {{ destination.city }} {{ destination.country }}
+                                {% else %}
+                                    {{ destination.city }}, {{ destination.country }}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <p class="text-gray-600 text-lg">No saved destinations</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock body %}
