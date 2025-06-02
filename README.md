@@ -1,33 +1,79 @@
-# travel-breeze
-A website that gives monthly weather information from the past year at a given location, built using Django.
+# 🌬️ Travel Breeze
 
-## Libraries/Frameworks Used
-- Django (Database: SQLite, 3 tables)
-- Leaflet.js
-- Plotly
-- MeteoStat (API)
-- Geopy (API)
-- Tailwind
+**Travel Breeze** is a web application built with Django that provides historical monthly weather data for destinations around the world. Users can explore locations, view interactive climate visualizations, and save favorite places—all through a clean and intuitive interface.
 
-## Website Usage
+## Tech Stack
 
-### 👤 User Accounts
-- When the user loads the website, they are greeted with a home page prompting them to login or register.
-- Until logged in, the user cannot access any of the services provided by the website.
+**Backend:**
+- Django
+- SQLite
+- MeteoStat API (weather data)
+- Geopy / Nominatim API (location data)
+- Plotly (data visualization)
 
-### 🌍 Explore Page
-- Once logged in, the user can navigate to the explore page where they can select or search for any destination on the map.
-- Once the user selects (by clicking on the map) or searches (by entering country and city name) a destination, a marker appears on the map.
-- The user can select several destinations at a time, or reset the currently selected ones.
-- After all desired destinations have been selected, the user can save these destinations which adds them to the database.
-- When the user logs back in, all saved destinations will appear as markers on the map.
-- Different error texts will appear if the user enters invalid data.
-- Errors include entering a duplicate location, entering a location that does not exist, etc.
+**Frontend:**
+- HTML / Django Templates  
+- Tailwind CSS
+- JavaScript
+- Leaflet.js (interactive maps)
 
-### 📚 Library and Weather Data
-- All of the user's saved destinations will appear under the Library section.
-- When a destination is clicked on, the user will be presented with a bar graph presenting weather data from the past year for each month.
-- Temprature data is presented initially, but the user can select humidty, precipitation, and wind speed along with temprature.
-- Below the graph, there is a list of months. The user can select a month to show more detailed data for that particular month.
-- A destination can be deleted by clicking the delete button in the destination overview page
+## Features
 
+### 👤 User Authentication
+- Secure registration and login system using Django's built-in authentication.
+- All core features are gated behind login to ensure a personalized experience.
+
+### 🌍 Interactive Explore Page
+- Browse a world map and search destinations by city and country.
+- Add markers by clicking on the map or by entering a location manually.
+- Select and save multiple destinations, which persist as markers on the map across sessions.
+- View all saved locations when logged back in.
+
+### 📚 Destination Library
+- Displays all of the user’s saved destinations.
+- Click on a location to view a detailed climate summary with an interactive bar graph.
+- Toggle between weather metrics: **Temperature**, **Humidity**, **Precipitation**, and **Wind Speed**.
+- View detailed data for any specific month.
+- Easily remove destinations from your library.
+
+### ❌ Smart Error Handling
+- Graceful feedback for invalid or duplicate inputs.
+- Alerts for non-existent locations or unsupported geocoding/MeteoStat results.
+
+## APIs and Data Handling
+
+### 🌦️ Weather Data (MeteoStat)
+- Retrieves past year’s **hourly weather data** per location.
+- Parses and calculates **monthly averages** for key metrics.
+- Stores aggregated data in the database to optimize performance.
+
+### 📍 Location Data (Geopy + Nominatim)
+- Converts latitude/longitude to human-readable locations and vice versa.
+- Supports both manual input and map-based selection via Leaflet.js.
+
+### 📊 Visualization (Plotly)
+- Weather data is rendered as interactive bar charts.
+- Clean, responsive, and informative graphical representation of climate data.
+
+## Database Schema (3 Tables)
+
+- **User**: Inherits Django’s built-in user model.
+- **Destination**: Stores location names, coordinates, and a foreign key to the user.
+- **MonthlyWeather**: Contains 12 records per destination (one for each month) with weather averages, and a foreign key to destination.
+
+---
+
+## 🎨 Frontend Overview
+
+- **HTML / Django Templates**: Utilizes template inheritance, dynamic content rendering, and Django forms.
+- **Tailwind CSS**: Provides modern utility-first styling with responsive layouts.
+- **JavaScript**: Handles interactive map logic and dynamic communication with Django views (AJAX-style updates).
+- **Leaflet.js**: Renders the world map and handles marker logic.
+- **Plotly.js**: Displays dynamic charts for monthly weather trends.
+
+---
+
+## 📌 Notes
+
+- The frontend design and styling were initially generated using GenAI and then refined manually.
+- The project prioritizes clean UI/UX, performance, and modularity in both frontend and backend development.
