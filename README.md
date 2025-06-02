@@ -2,7 +2,7 @@
 A website that gives monthly weather information from the past year at a given location, built using Django.
 
 ## Libraries/Frameworks Used
-- Django (Database: SQLite)
+- Django (Database: SQLite, 3 tables)
 - Leaflet.js
 - Plotly
 - MeteoStat (API)
