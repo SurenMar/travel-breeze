@@ -16,7 +16,7 @@ MONTHS = [
 
 @login_required
 def destination_list(request):
-    destinations = Destination.objects.filter(owner=request.user).order_by('date_added')
+    destinations = Destination.objects.filter(owner=request.user).order_by('-date_added')
     context = {
         'title': 'Library', 
         'destinations': destinations,
