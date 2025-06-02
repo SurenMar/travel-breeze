@@ -1,4 +1,4 @@
-# 🌬️ Travel Breeze
+# Travel Breeze
 
 **Travel Breeze** is a web application built with Django that provides historical monthly weather data for destinations around the world. Users can explore locations, view interactive climate visualizations, and save favorite places—all through a clean and intuitive interface.
 
