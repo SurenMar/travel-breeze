@@ -16,6 +16,10 @@ MONTHS = [
 
 @login_required
 def destination_list(request):
+    """
+    A view that lists all selected destinations
+    """
+    # Get all destinations belonging to user, most recent ones first
     destinations = Destination.objects.filter(owner=request.user).order_by('-date_added')
     context = {
         'title': 'Library', 
@@ -67,6 +71,9 @@ def _graph_info(buttons_clicked, weather_data):
 
 @login_required
 def destination_detail(request, destination_id):
+    """
+    A view that gives a detailed overview of a particular destination
+    """
     destination = Destination.objects.get(id=destination_id)
     
     # Verify destination belongs to current user
@@ -110,11 +117,15 @@ def destination_detail(request, destination_id):
 
 @login_required
 def destination_month(request, destination_id, month):
+    """
+    A view that displays information for a specific month
+    """
     destination = Destination.objects.get(id=destination_id)
     
     if destination.owner != request.user:
         raise Http404
     
+    # Get all data associated with that month
     month_data = destination.monthly_stats.get(month=month)
     
     context = {

@@ -19,7 +19,7 @@ def parse_weather_data(raw_data):
                 'wind_speed': float(row['wspd']),
                 'weather_code': float(row['coco']),
             })
-    
+            
     return parsed_data
 
 def _weather_valid(row):

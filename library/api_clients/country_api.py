@@ -23,13 +23,12 @@ def get_country_data(lat, lon):
         except GeocoderTimedOut:
             sleep(1)
 
-    # Extract city and country, return None if error is encountered
+    # Extract city and country name
     if location and location.raw.get('address'):
         address = location.raw['address']
         country = address.get('country') or 'the ocean'
         city = address.get('city', address.get('town', address.get('village'))) \
             or 'Somewhere in'
-        print(country, city)
         return country, city
     else:
         return 'the ocean', 'Somewhere in'

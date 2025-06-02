@@ -1,4 +1,4 @@
-// Existing code (map setup, marker handling, etc.) remains unchanged
+// Create map variable at starting coords
 var map = L.map('map').setView([51.505, -0.09], 2);
 map.setMaxBounds(map.getBounds());
 
@@ -8,11 +8,13 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// Display each destinations_json coord from our database onto the map
 let destinations = JSON.parse(document.getElementById('destinations_json').textContent);
 destinations.forEach(destination => {
     L.marker([destination.latitude, destination.longitude]).addTo(map);
 });
 
+// Add coords and markers to a list on each user click
 let newCoords = [];
 let newMarkers = [];
 map.on('click', (event) => {
@@ -22,6 +24,7 @@ map.on('click', (event) => {
     newCoords.push({ latitude: lat, longitude: lon });
 });
 
+// A function that resets all current markers (and coordinates of those markers)
 function resetMarkers() {
     newCoords = [];
     newMarkers.forEach(marker => {
@@ -30,6 +33,7 @@ function resetMarkers() {
     newMarkers = [];
 }
 
+// Several functions that handle saving/adding indicators
 function showSaveSpinner() {
     document.getElementById('saving-indicator').style.display = 'block';
 }
@@ -46,6 +50,7 @@ function hideAddSpinner() {
     document.getElementById('adding-indicator').style.display = 'none';
 }
 
+// Gets cookie (primarily used for csrf)
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -61,13 +66,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// Intercept form submission
+// Intercept location-form submission
 document.getElementById('enter-location-form').addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent default form submission
     addLocation();
 });
 
-// New function to handle form submission
+// Function that adds users typed solution to the map
 function addLocation() {
     const errorLocation = document.getElementById('error-location');
     const errorNoDest = document.getElementById('error-no-dest');
@@ -86,8 +91,9 @@ function addLocation() {
     formData.append('save_location', 'true');
     formData.append('country', countryInput);
     formData.append('city', cityInput);
-    formData.append('enter_location', 'true'); // Add this to match the view's condition
+    formData.append('enter_location', 'true'); // This is because we check for 'enter_location' in view
 
+    // Gets handled in save_data's form processing
     fetch('/explore/save-data/', {
         method: 'POST',
         headers: {
@@ -95,26 +101,27 @@ function addLocation() {
         },
         body: formData // Send as FormData to match application/x-www-form-urlencoded
     })
-        .then(response => {
-            hideAddSpinner();
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.location_error) {
-                errorLocation.style.display = 'block';
-            } else if (data.lat && data.lon) {
-                newMarkers.push(L.marker([data.lat, data.lon]).addTo(map));
-                newCoords.push({ latitude: data.lat, longitude: data.lon });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            hideAddSpinner();
-            errorLocation.style.display = 'block'; // Show error on failure
-        });
+    .then(response => {
+        hideAddSpinner();
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // Adds user's entered location to the map
+    .then(data => {
+        if (data.location_error) {
+            errorLocation.style.display = 'block';
+        } else if (data.lat && data.lon) {
+            newMarkers.push(L.marker([data.lat, data.lon]).addTo(map));
+            newCoords.push({ latitude: data.lat, longitude: data.lon });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        hideAddSpinner();
+        errorLocation.style.display = 'block'; // Show error on failure
+    });
 }
 
 // Function that sends selected locations to save_data view
@@ -122,6 +129,7 @@ function saveLocation() {
     const errorNoDest = document.getElementById('error-no-dest');
     const errorNoStations = document.getElementById('error-no-stations')
     errorNoStations.style.display = 'none'
+    
     // Check if user has clicked on the map
     if (newMarkers.length === 0) {
         errorNoDest.style.display = 'block';
@@ -140,11 +148,13 @@ function saveLocation() {
         },
         body: JSON.stringify({ destinations: newCoords })
     // Process response and display any errors if needed
-    }).then(response => {
+    }).
+    then(response => {
         newCoords = []
         hideSaveSpinner()
         return response.json()
-    }).then(data => {
+    })
+    .then(data => {
         // Remove markers of any invalid destination coordinates
         if (data.invalid_dests && data.invalid_dests.length > 0) {
             console.log('Invalid destinations:', data.invalid_dests);

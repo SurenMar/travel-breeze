@@ -1,6 +1,9 @@
 from django import forms
 
 class CityForm(forms.Form):
+    """
+    A form that lets user type in desired city in explore page
+    """
     city = forms.CharField(
         max_length=50,
         required=True,
@@ -12,6 +15,9 @@ class CityForm(forms.Form):
     )
     
 class CountryForm(forms.Form):
+    """
+    A form that lets user type in desired country in explore page
+    """
     country = forms.CharField(
         max_length=50,
         required=True,
