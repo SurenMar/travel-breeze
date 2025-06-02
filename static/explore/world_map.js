@@ -74,12 +74,14 @@ document.getElementById('enter-location-form').addEventListener('submit', (event
 
 // Function that adds users typed solution to the map
 function addLocation() {
+    const errorDuplicate = document.getElementById('error-duplicate');
     const errorLocation = document.getElementById('error-location');
     const errorNoDest = document.getElementById('error-no-dest');
     const errorNoStations = document.getElementById('error-no-stations');
     const countryInput = document.querySelector('input[name="country"]').value;
     const cityInput = document.querySelector('input[name="city"]').value;
 
+    errorDuplicate.style.display = 'none';
     errorLocation.style.display = 'none';
     errorNoDest.style.display = 'none';
     errorNoStations.style.display = 'none';
@@ -108,27 +110,30 @@ function addLocation() {
         }
         return response.json();
     })
-    // Adds user's entered location to the map
+    // Adds user's entered location to the map or displays error
     .then(data => {
         if (data.location_error) {
             errorLocation.style.display = 'block';
+        } else if (data.duplicate_error) {
+            errorDuplicate.style.display = 'block';
         } else if (data.lat && data.lon) {
             newMarkers.push(L.marker([data.lat, data.lon]).addTo(map));
             newCoords.push({ latitude: data.lat, longitude: data.lon });
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        hideAddSpinner();
-        errorLocation.style.display = 'block'; // Show error on failure
-    });
 }
 
 // Function that sends selected locations to save_data view
 function saveLocation() {
+    const errorDuplicate = document.getElementById('error-duplicate');
+    const errorLocation = document.getElementById('error-location');
     const errorNoDest = document.getElementById('error-no-dest');
-    const errorNoStations = document.getElementById('error-no-stations')
-    errorNoStations.style.display = 'none'
+    const errorNoStations = document.getElementById('error-no-stations');
+
+    errorDuplicate.style.display = 'none';
+    errorLocation.style.display = 'none';
+    errorNoDest.style.display = 'none';
+    errorNoStations.style.display = 'none';
     
     // Check if user has clicked on the map
     if (newMarkers.length === 0) {
@@ -157,7 +162,6 @@ function saveLocation() {
     .then(data => {
         // Remove markers of any invalid destination coordinates
         if (data.invalid_dests && data.invalid_dests.length > 0) {
-            console.log('Invalid destinations:', data.invalid_dests);
             data.invalid_dests.forEach(invalid => {
                 for (let i = newMarkers.length - 1; i >= 0; i--) {
                     const marker = newMarkers[i];

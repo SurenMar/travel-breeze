@@ -41,12 +41,19 @@ def world_map(request):
     return render(request, 'explore/world_map.html', context)
 
 
+def _destination_exists(country, city):
+    """
+    A helper function that checks if a destination already exists
+    """
+    return Destination.objects.filter(country=country, city=city).exists()
+
+
 def _process_weather_data(destinations, user):
     """
     A helper function that analyzes, parses, and saves data in database.
     Returns any invalid destinations.
     """
-    invalid_dests = []      # A list of all invalid destinations
+    invalid_dests = []
     # Check each of the users clicked destinations
     for dest in destinations:
         # Get lat and lon values of dest
@@ -54,7 +61,10 @@ def _process_weather_data(destinations, user):
         lon = dest.get('longitude')
     
         # Get country and city name through API (no need to parse)
+        # Dont add to db if it already exists
         country, city = get_country_data(lat, lon)
+        if _destination_exists(country, city):
+            continue
         
         # Get weather data through API call and parse it
         raw_weather_data = get_weather_data(lat, lon)
@@ -81,16 +91,23 @@ def save_data(request):
         city_form = CityForm(data=request.POST)
         
         if country_form.is_valid() and city_form.is_valid():
-            country = country_form.cleaned_data['country']
-            city = city_form.cleaned_data['city']
+            country = country_form.cleaned_data['country'].title()
+            city = city_form.cleaned_data['city'].title()
+            # Check if location already exists in datab
+            if _destination_exists(country, city) and city != 'Somewhere In':
+                return JsonResponse({
+                    'duplicate_error': True,
+                }, status=200)
             
             coords = get_coord_data(city, country)
-            lat, lon = coords['latitude'], coords['longitude']
-            if not lat or not lon:
+            # Check if location could not be found, return location error
+            if not coords:
                 return JsonResponse({
                     'location_error': True,
-                }, status=400)
+                }, status=200)
+            # Return coords
             else:
+                lat, lon = coords['latitude'], coords['longitude']
                 return JsonResponse({
                     'lat': lat,
                     'lon': lon,

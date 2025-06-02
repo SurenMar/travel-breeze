@@ -29,7 +29,7 @@ def get_country_data(lat, lon):
         country = address.get('country') or 'the ocean'
         city = address.get('city', address.get('town', address.get('village'))) \
             or 'Somewhere in'
-        return country, city
+        return country.title(), city.title()
     else:
         return 'the ocean', 'Somewhere in'
 
@@ -48,6 +48,6 @@ def get_coord_data(city, country):
             coords = geolocator.geocode(f'{city}, {country}')
         except GeocoderTimedOut:
             sleep(1)
-        
-    return {'latitude': coords.latitude, 'longitude': coords.longitude}
+    if coords:
+        return {'latitude': coords.latitude, 'longitude': coords.longitude}
     
