@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'weather_vista.urls'
+ROOT_URLCONF = 'travel-breeze.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'weather_vista.wsgi.application'
+WSGI_APPLICATION = 'travel-breeze.wsgi.application'
 
 
 # Database
