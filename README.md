@@ -72,3 +72,27 @@
 
 - The frontend styling was initially generated using GenAI and then refined manually.
 - This website as not been deployed.
+
+## 🚀 Installation (via Bash)
+
+### For Mac and Linux (Ubuntu) Users Only:
+   1. Download the file `tb_install.sh` into a folder where you like the game to be.
+   2. Make the script executable: `chmod +x tb_install.sh`.
+   3. Run the file: `./tb_install.sh`.
+   4. If you are missing any required programs, the script will notify you. Download these programs and re-run `tb_install.sh`.
+   5. The script will download all libraries and framewords needed from the `requirements.txt` file
+   6. Follow the steps provided once the script finishes.
+   7. Type in the provided web address into your web browser and start exploring!
+
+### For All Users:
+   1. Download a ZIP file of **travel-breeze**.
+   2. Unzip the file.
+   3. The files will be in a folder called `alien-invasion-main`.
+   4. Go into this file and ensure you have python and pip (or pip3) installed (installation steps vary depending on OS).
+   5. Install the required libraries and frameworks from the `requirements.txt` file (installation steps vary depending on OS).
+   6. Make `tb_run.sh` executable: `chmod +x tb_run.sh`.
+   7. Run the executable and type in the provided web address into your web browser and start exploring!
+
+## ✅ To-Do List
+
+*empty...*
