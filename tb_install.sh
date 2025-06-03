@@ -62,8 +62,8 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Add execution permission to run.sh and create database file
-chmod +x "run.sh"
+chmod +x "tb_run.sh"
 
-echo -e "You're all set!\nSimply type cd $prog_name and ./run.sh\nEnjoy exploring!"
+echo -e "You're all set!\nSimply type cd $prog_name and ./tb_run.sh\nEnjoy exploring!"
 
 exit 0
