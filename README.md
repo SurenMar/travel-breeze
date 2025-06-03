@@ -29,12 +29,17 @@
 - Select and save multiple destinations, which persist as markers on the map across sessions.
 - View all saved locations when logged back in.
 
+   <img width="450" alt="Screenshot 2025-06-02 at 9 00 22 PM" src="https://github.com/user-attachments/assets/6aa09b80-919b-462e-9b7a-cdedc28b3cbc" />
+
 ### 📚 Destination Library
 - Displays all of the user’s saved destinations.
 - Click on a location to view a detailed climate summary with an interactive bar graph.
 - Toggle between weather metrics: **Temperature**, **Humidity**, **Precipitation**, and **Wind Speed**.
 - View detailed data for any specific month.
 - Easily remove destinations from your library.
+  
+   <img width="450" alt="Screenshot 2025-06-02 at 9 01 53 PM" src="https://github.com/user-attachments/assets/2df1e390-c6fc-4fbb-9b35-de00bb9281e1" /> <img width="450" alt="Screenshot 2025-06-02 at 9 02 21 PM" src="https://github.com/user-attachments/assets/b0bbec35-b6dc-4d8a-9212-602c3909bc16" />
+
 
 ### ❌ Error Handling
 - Graceful feedback for invalid or duplicate inputs.
