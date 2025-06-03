@@ -7,12 +7,12 @@ class Destination(models.Model):
     A destination the user saved
     """
     # Basic information
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     
     # Country information
-    country = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50, null=True)
+    city = models.CharField(max_length=50, null=True)
     
     # Location information
     latitude = models.FloatField(default=0.0)
@@ -36,8 +36,9 @@ class MonthlyWeather(models.Model):
     ], start=1)]
     
     # Basic information
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='monthly_stats')
-    month = models.IntegerField(choices=MONTH_CHOICES)
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, \
+        related_name='monthly_stats', null=True)
+    month = models.IntegerField(choices=MONTH_CHOICES, null=True)
     
     # Temprature information
     avg_temp = models.FloatField(null=True)
@@ -50,7 +51,7 @@ class MonthlyWeather(models.Model):
     # Wind information
     wind_speed = models.FloatField(null=True)
     # Other
-    weather_condition = models.CharField()
+    weather_condition = models.CharField(null=True)
     
     class Meta:
         ordering = ['month']

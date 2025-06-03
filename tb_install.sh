@@ -47,7 +47,6 @@ python3 -m venv tb_env
 source tb_env/bin/activate
 
 # Check for libraries/frameworks and install if needed depending on OS
-chmod +r "requirments.txt"
 for requirement in $(cat requirements.txt); do
     if ! pip3 -qq show "$requirement"; then
         if [ "$user_OS" == "mac" ]; then          # macos
@@ -58,9 +57,13 @@ for requirement in $(cat requirements.txt); do
     fi
 done
 
-# add execution permission to run.sh and create database file
-chmod +x "${prog_name}/run.sh"
+# Migrate models
+python manage.py makemigrations
+python manage.py migrate
 
-echo -e "You're all set!\nSimply type cd $prog_name and ./run.sh\nEnjoy the game!"
+# Add execution permission to run.sh and create database file
+chmod +x "run.sh"
+
+echo -e "You're all set!\nSimply type cd $prog_name and ./run.sh\nEnjoy exploring!"
 
 exit 0
