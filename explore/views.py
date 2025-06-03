@@ -41,11 +41,12 @@ def world_map(request):
     return render(request, 'explore/world_map.html', context)
 
 
-def _destination_exists(country, city):
+def _destination_exists(user, country, city):
     """
     A helper function that checks if a destination already exists
     """
-    return Destination.objects.filter(country=country, city=city).exists()
+    return Destination.objects.filter(
+        owner=user, country=country, city=city).exists()
 
 
 def _process_weather_data(destinations, user):
@@ -63,7 +64,7 @@ def _process_weather_data(destinations, user):
         # Get country and city name through API (no need to parse)
         # Dont add to db if it already exists
         country, city = get_country_data(lat, lon)
-        if _destination_exists(country, city):
+        if _destination_exists(user, country, city):
             continue
         
         # Get weather data through API call and parse it
@@ -94,7 +95,7 @@ def save_data(request):
             country = country_form.cleaned_data['country'].title()
             city = city_form.cleaned_data['city'].title()
             # Check if location already exists in datab
-            if _destination_exists(country, city) and city != 'Somewhere In':
+            if _destination_exists(request.user, country, city) and city != 'Somewhere In':
                 return JsonResponse({
                     'duplicate_error': True,
                 }, status=200)
