@@ -42,19 +42,18 @@ unzip -t -qq "${prog_name}.zip" && { unzip -o -qq "${prog_name}.zip"; } \
 rm "${prog_name}.zip" && mv "${prog_name}-main" "${prog_name}"
 cd "${prog_name}"
 
-# Create and activate virtual environment
+# Install, create and activate virtual environment
+[ "$user_OS" == "ubuntu" ] && sudo apt-get install python3-venv -y
 python3 -m venv tb_env
 source tb_env/bin/activate
 
-# Check for libraries/frameworks and install if needed depending on OS
-for requirement in $(cat requirements.txt); do
-    if ! pip3 -qq show "$requirement"; then
-        if [ "$user_OS" == "mac" ]; then          # macos
-            pip3 install "$requirement"
-        elif [ "$user_OS" == "ubuntu" ]; then     # ubuntu
-            sudo apt-get update && sudo apt-get install -y python3-"$requirements"
-        fi
-    fi
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Upgrade pip and install needed libraries and frameworks
+python -m pip install --upgrade pip
+for requirement in $(cat requirements.txt); do	
+    pip install "$requirement"
 done
 
 # Migrate models
