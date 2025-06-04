@@ -7,6 +7,7 @@
 ### ⚙️ Backend
 - Django
 - SQLite
+- Pandas
 - MeteoStat API (weather data)
 - Geopy / Nominatim API (location data)
 - Plotly (data visualization)
@@ -47,7 +48,7 @@
 
 ## APIs and Data Processing
 
-### 🌦️ Weather Data (MeteoStat)
+### 🌦️ Weather Data (MeteoStat & Pandas)
 - Retrieves past year’s **hourly weather data** per location.
 - Parses and calculates **monthly averages** for key metrics.
 - Stores aggregated data in the database to optimize performance.
