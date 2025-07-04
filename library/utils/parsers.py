@@ -6,27 +6,24 @@ from numpy import isnan
 
 def parse_weather_data(raw_data):
     """
-    This function parses and returns weather data of type DateFrame
+    This function parses and returns weather data of type DataFrame
     """
+    # Drop specified columns and drop all rows with a missing entries
+    raw_data = raw_data.drop(
+        ['station', 'time', 'dwpt', 'snow', \
+            'wdir', 'wpgt', 'pres', 'tsun'],
+        axis=1, errors='ignore',
+    ).dropna(axis=0)
+    
+    # Parse data
     parsed_data = []
     for _, row in raw_data.iterrows():
-        # Parse data only if current row if valid
-        if _weather_valid(row):
-            parsed_data.append({
-                'temp': float(row['temp']),
-                'humidity': float(row['rhum']),
-                'precipitation': float(row['prcp']),
-                'wind_speed': float(row['wspd']),
-                'weather_code': float(row['coco']),
-            })
-            
+        parsed_data.append({
+            'temp': float(row['temp']),
+            'humidity': float(row['rhum']),
+            'precipitation': float(row['prcp']),
+            'wind_speed': float(row['wspd']),
+            'weather_code': float(row['coco']),
+        })
+    
     return parsed_data
-
-def _weather_valid(row):
-    """
-    This helper function checks if any of the needed variables are NaNs
-    """
-    return not (isnan(row['temp']) or isnan(row['rhum']) or \
-        isnan(row['prcp']) or isnan(row['wspd']) or isnan(row['coco']))
-    
-    
