@@ -103,4 +103,15 @@ Web application built with **Django** that visually provides historical monthly 
 
 ## ✅ To-Do List
 
-*empty...*
+- Add ML model that classifies each of the destinations months as having suitable wether for biking or not.
+  
+   1. Add biking_suitability attribute to MonthlyWeather label.
+   2. Read hourly biking dataset through ucimlrepo API and fetch hourly dataset.
+   3. Remove rows for which the non-weather feature heavily dictates biking outcome (weekends, midnight hours, etc).
+   4. Filter features and keep only weather information.
+   5. Add labels 1, 0 to each row by averaging the total bicycle counts and analyzing the std dev of the counts of each row.
+   6. Train SGDClassifier model with filtered data (SGDClassifier is used because it handles overfitting and provides online learning).
+   7. Implement model into web app and predict suitability for eahc month each time a user selects a destination.
+   8. After destination is selected, the user will be asked if they would ride a bicycle at their selected destination.
+   9. Without storing in DB, use this information for online learning, and store the new prediction for the destination in DB.
+   10. Add "Biking Suitability" to the Plotly graph and each months weather page.
