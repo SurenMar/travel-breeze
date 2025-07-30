@@ -10,9 +10,8 @@ def parse_weather_data(raw_data):
     """
     # Drop specified columns and drop all rows with a missing entries
     raw_data = raw_data.drop(
-        ['station', 'time', 'dwpt', 'snow', \
-            'wdir', 'wpgt', 'pres', 'tsun'],
-        axis=1, errors='ignore',
+        columns=['station', 'time', 'dwpt', 'snow',
+        'wdir', 'wpgt', 'pres', 'tsun'], errors='ignore',
     ).dropna(axis=0)
     
     # Parse data
