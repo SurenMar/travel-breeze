@@ -12,3 +12,5 @@ def predict(temp, hum, wdsp, prcp):
     data = [temp, hum, wdsp, prcp]
     X = np.array(data).reshape(1, -1)
     return int(bike_clf.predict(X)[0])
+
+print(predict(8.5, 75, 5.8, 0.236))

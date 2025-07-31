@@ -60,10 +60,12 @@ def monthly_weather_avgs(data):
     # Constants
     MONTHS_IN_YEAR = 12
     HOURS_IN_MONTH = len(data) // MONTHS_IN_YEAR
+    MS_IN_KMH = 3.6
     
     for hour, row in enumerate(data, start=1):
         # Check if a months worth of data has been read
         if hour % HOURS_IN_MONTH == 0:
+            adj_prcp = precipitation / HOURS_IN_MONTH
             averages = {
                 'month': month,
                 'avg_temp': temp / HOURS_IN_MONTH,
@@ -76,7 +78,7 @@ def monthly_weather_avgs(data):
                     int(round(weather_code / HOURS_IN_MONTH, 0))),
                 'biking_suitability': 'Suitable' if predict(
                     temp / HOURS_IN_MONTH, humidity / HOURS_IN_MONTH,
-                    wind_speed / HOURS_IN_MONTH, precipitation / HOURS_IN_MONTH) \
+                    wind_speed / HOURS_IN_MONTH / MS_IN_KMH, adj_prcp) \
                     else 'Not Suitable',
             }
             monthly_data.append(averages)
