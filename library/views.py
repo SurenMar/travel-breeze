@@ -86,6 +86,7 @@ def destination_detail(request, destination_id):
     
     # Get weather data for desired destination
     weather_data = destination.monthly_stats.order_by('month')
+    biking_data = [wd.biking_suitability for wd in weather_data]
     
     graph_info = _graph_info(request.GET, weather_data)
     
@@ -98,6 +99,7 @@ def destination_detail(request, destination_id):
         labels={'x': 'Months', 'y': graph_info['y_label']},
         title=graph_info['title'],
         range_y=y_bounds,
+        hover_data={'Biking': biking_data},
     )
     fig.update_layout(
         yaxis=dict(
