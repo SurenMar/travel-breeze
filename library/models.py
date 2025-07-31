@@ -52,7 +52,7 @@ class MonthlyWeather(models.Model):
     wind_speed = models.FloatField(null=True)
     # Other
     weather_condition = models.CharField(null=True)
-    bike_suitability = models.CharField(null=True)
+    biking_suitability = models.CharField(null=True)
     
     class Meta:
         ordering = ['month']

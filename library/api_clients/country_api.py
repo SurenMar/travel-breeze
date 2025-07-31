@@ -4,6 +4,10 @@ A file to request API calls for country data
 # Import Geopy
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
+import ssl
+import certifi
+
+ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 
 # Import time
 from time import sleep

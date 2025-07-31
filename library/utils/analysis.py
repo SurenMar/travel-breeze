@@ -2,7 +2,7 @@
 This file contains functions which perform data analysis on parsed data
 """
 
-from ml.ml_models.bike_clf import predict
+from library.ml.ml_models.bike_clf import predict
 
 def _get_weather_condition(weather_code):
     """
@@ -76,7 +76,8 @@ def monthly_weather_avgs(data):
                     int(round(weather_code / HOURS_IN_MONTH, 0))),
                 'biking_suitability': 'Suitable' if predict(
                     temp / HOURS_IN_MONTH, humidity / HOURS_IN_MONTH,
-                    wind_speed / HOURS_IN_MONTH, )
+                    wind_speed / HOURS_IN_MONTH, precipitation / HOURS_IN_MONTH) \
+                    else 'Not Suitable',
             }
             monthly_data.append(averages)
             month += 1
