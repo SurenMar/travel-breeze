@@ -1,8 +1,8 @@
 """
-A file to store parser functions for all kinds of data
+Stores serializer functions for all types of data
 """
 
-def parse_weather_data(raw_data):
+def serialize_weather_data(raw_data):
     """
     This function parses and returns weather data of type DataFrame
     """
@@ -13,9 +13,9 @@ def parse_weather_data(raw_data):
     ).dropna(axis=0)
     
     # Parse data
-    parsed_data = []
+    serialized_data = []
     for _, row in raw_data.iterrows():
-        parsed_data.append({
+        serialized_data.append({
             'temp': float(row['temp']),
             'humidity': float(row['rhum']),
             'precipitation': float(row['prcp']),
@@ -23,4 +23,4 @@ def parse_weather_data(raw_data):
             'weather_code': float(row['coco']),
         })
     
-    return parsed_data
+    return serialized_data

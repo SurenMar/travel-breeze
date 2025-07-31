@@ -1,5 +1,5 @@
 """
-This file contains functions which perform data analysis on parsed data
+Stores processor functions for all types of data
 """
 
 from library.ml.ml_models.bike_clf import predict

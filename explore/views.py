@@ -12,8 +12,8 @@ from library.api_clients.weather_api import get_weather_data
 from library.api_clients.country_api import get_country_data, get_coord_data
 
 # Import utils
-from library.utils.parsers import parse_weather_data
-from library.utils.analysis import monthly_weather_avgs
+from library.utils.serializers import serialize_weather_data
+from library.utils.processors import monthly_weather_avgs
 
 # Import services
 from library.services.save_to_db import save_destination, save_monthly_weather
@@ -69,7 +69,7 @@ def _process_weather_data(destinations, user):
         
         # Get weather data through API call and parse it
         raw_weather_data = get_weather_data(lat, lon)
-        parsed_weather_data = parse_weather_data(raw_weather_data)
+        parsed_weather_data = serialize_weather_data(raw_weather_data)
         # Check if parsing failed (no weather stations with needed data)
         if len(parsed_weather_data) == 0:
             invalid_dests.append(dest)
