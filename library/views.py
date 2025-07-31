@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
 # Import models
-from .models import Destination, MonthlyWeather
+from .models import Destination
 
 # Import Plotly
 import plotly.express as px
