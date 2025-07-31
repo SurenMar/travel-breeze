@@ -2,6 +2,8 @@
 This file contains functions which perform data analysis on parsed data
 """
 
+from ml.ml_models.bike_clf import predict
+
 def _get_weather_condition(weather_code):
     """
     A helper function to lookup the weather condition
@@ -72,6 +74,9 @@ def monthly_weather_avgs(data):
                 'wind_speed': wind_speed / HOURS_IN_MONTH,
                 'weather_condition': _get_weather_condition(
                     int(round(weather_code / HOURS_IN_MONTH, 0))),
+                'biking_suitability': 'Suitable' if predict(
+                    temp / HOURS_IN_MONTH, humidity / HOURS_IN_MONTH,
+                    wind_speed / HOURS_IN_MONTH, )
             }
             monthly_data.append(averages)
             month += 1

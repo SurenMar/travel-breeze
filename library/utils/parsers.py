@@ -2,8 +2,6 @@
 A file to store parser functions for all kinds of data
 """
 
-from numpy import isnan
-
 def parse_weather_data(raw_data):
     """
     This function parses and returns weather data of type DataFrame

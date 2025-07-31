@@ -50,7 +50,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # Fine tune hyperparameters
 param_grid = {
-    'n_estimators': [100, 200],
+    'n_estimators': [150, 200],
     'max_depth': [10, 12, 14],
     'min_samples_split': [2, 5, 7],
     'min_samples_leaf': [1, 2],
@@ -66,5 +66,6 @@ grid = GridSearchCV(
     error_score='raise',
 )
 
+# Fit and serialize model
 grid.fit(X_train, y_train)
-forest = grid.best_estimator_
+joblib.dump(grid.best_estimator_, 'library/ml/ml_models/bike_clf.pkl')

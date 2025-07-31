@@ -38,4 +38,5 @@ def save_monthly_weather(destination_pk, weather_data):
             precipitation = int(weather_data[month]['precipitation']),
             wind_speed = round(weather_data[month]['wind_speed'], 1),
             weather_condition = weather_data[month]['weather_condition'],
+            biking_suitability = weather_data[month]['biking_suitability']
         )
