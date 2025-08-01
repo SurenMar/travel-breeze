@@ -30,10 +30,11 @@ def get_country_data(lat, lon):
     # Extract city and country name
     if location and location.raw.get('address'):
         address = location.raw['address']
-        country = address.get('country') or 'the ocean'
-        city = address.get('city', address.get('town', address.get('village'))) \
-            or 'Somewhere in'
-        return country.title(), city.title()
+        country = address.get('country')
+        country = country.title() if country else 'the ocean'
+        city = address.get('city', address.get('town', address.get('village')))
+        city = city.title() if city else 'Somewhere in'
+        return country, city
     else:
         return 'the ocean', 'Somewhere in'
 

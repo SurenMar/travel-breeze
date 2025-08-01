@@ -46,8 +46,11 @@ def _destination_exists(user, country, city):
     """
     A helper function that checks if a destination already exists
     """
-    return Destination.objects.filter(
-        owner=user, country=country, city=city).exists()
+    if city != 'Somewhere in' and Destination.objects.filter(
+       owner=user, country=country, city=city).exists():
+        return True
+    else:
+        return False
 
 
 def _process_weather_data(destinations, user):
@@ -65,6 +68,7 @@ def _process_weather_data(destinations, user):
         # Get country and city name through API (no need to parse)
         # Dont add to db if it already exists
         country, city = get_country_data(lat, lon)
+        print(country, city)
         if _destination_exists(user, country, city):
             continue
         
@@ -122,9 +126,12 @@ def save_data(request):
     # Get latitude and longitude from user's clicks
     user_click = json.loads(request.body)
     destinations = user_click.get('destinations', [])
+    print('PROCESSING CLICKS')
+    print(destinations)
     
     # Process weather data
     invalid_dests = _process_weather_data(destinations, request.user)
+    print(invalid_dests)
     
     # Return all invalid destinations to frontend
     return JsonResponse({
