@@ -67,7 +67,7 @@ grid = GridSearchCV(
     param_grid=param_grid,
     scoring='accuracy',
     cv=5,
-    n_jobs=3,
+    n_jobs=2,
     error_score='raise',
 )
 
@@ -88,7 +88,7 @@ forest = RandomForestClassifier(
     min_samples_split=4,
     max_features='sqrt',
     bootstrap=True,
-    n_jobs=3,
+    n_jobs=2,
     random_state=4
 )
 
