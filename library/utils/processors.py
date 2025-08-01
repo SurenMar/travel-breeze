@@ -36,7 +36,47 @@ def _get_weather_condition(weather_code):
     ]
     return weather_conditions[weather_code]
 
-def monthly_weather_avgs(data):
+def clean_weather_data(weather_df):
+    # Drop unnecessary columns and missing values
+    weather_df = weather_df.drop(
+        columns=['station', 'time', 'dwpt', 'snow',
+        'wdir', 'wpgt', 'pres', 'tsun'], errors='ignore',
+    ).dropna(axis=0)
+    return weather_df
+
+def process_weather_avgs(weather_df):
+    """Returns the monthly info as a list of dicts"""
+
+    # Create a list of dictionaries for all monthly weather info
+    monthly_weather = []
+    MS_IN_KMH = 3.6     # m/s in km/h
+    WIND_ADJ = 10       # wind speed adjustment factor
+    MONTHS_IN_YEAR = 12
+    HOURS_IN_MONTH = len(weather_df) // MONTHS_IN_YEAR
+
+    for m in range(12):
+        # Splice weather_df for each month
+        month_df = weather_df[m * HOURS_IN_MONTH : (m+1) * HOURS_IN_MONTH]
+
+        monthly_weather.append({
+            'month': m + 1,
+            'avg_temp': float(month_df['temp'].mean()),
+            'max_temp': float(month_df['temp'].max()),
+            'min_temp': float(month_df['temp'].min()),
+            'humidity': float(month_df['rhum'].mean()),
+            'precipitation': float(month_df['prcp'].sum()),
+            'wind_speed': float(month_df['wspd'].mean()),
+            'weather_condition': _get_weather_condition(
+                int(round(float(month_df['coco'].mean()), 0))),
+            'biking_suitability': 'Suitable' if predict(
+                float(month_df['temp'].mean()), 
+                float(month_df['rhum'].mean()),
+                float(month_df['wspd'].mean()) / MS_IN_KMH / WIND_ADJ, 
+                float(month_df['prcp'].mean())) else 'Not Suitable',
+        })
+    return monthly_weather
+
+def monthly_weather_avgs_hh(data):
     """
     This function finds monthly weather averages given data
     """

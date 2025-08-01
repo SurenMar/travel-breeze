@@ -13,7 +13,8 @@ from library.api_clients.country_api import get_country_data, get_coord_data
 
 # Import utils
 from library.utils.serializers import serialize_weather_data
-from library.utils.processors import monthly_weather_avgs
+from library.utils.processors import process_weather_avgs
+from library.utils.processors import clean_weather_data
 
 # Import services
 from library.services.save_to_db import save_destination, save_monthly_weather
@@ -51,7 +52,7 @@ def _destination_exists(user, country, city):
 
 def _process_weather_data(destinations, user):
     """
-    A helper function that analyzes, parses, and saves data in database.
+    A helper function that cleans, processes, and saves data in database.
     Returns any invalid destinations.
     """
     invalid_dests = []
@@ -67,18 +68,21 @@ def _process_weather_data(destinations, user):
         if _destination_exists(user, country, city):
             continue
         
-        # Get weather data through API call and parse it
-        raw_weather_data = get_weather_data(lat, lon)
-        parsed_weather_data = serialize_weather_data(raw_weather_data)
-        # Check if parsing failed (no weather stations with needed data)
-        if len(parsed_weather_data) == 0:
+        # Get weather data through API call and clean it
+        raw_weather_df = get_weather_data(lat, lon)
+        clean_weather_df = clean_weather_data(raw_weather_df)
+        # Check if cleaning failed (no weather stations with needed data)
+        print('------------')
+        print(len(clean_weather_df))
+        print('------------')
+        if len(clean_weather_df) == 0:
             invalid_dests.append(dest)
         # Analyze data
         else:
-            weather_data = monthly_weather_avgs(parsed_weather_data)
+            monthly_weather = process_weather_avgs(clean_weather_df)
             # Save data to database
             destination_pk = save_destination(user, country, city, lat, lon)
-            save_monthly_weather(destination_pk, weather_data)
+            save_monthly_weather(destination_pk, monthly_weather)
         
     return invalid_dests
 
@@ -88,6 +92,7 @@ def save_data(request):
     A view which recieves/sends/processes requests regarding weather/map data
     """
     if 'enter_location' in request.POST:
+        print('ENTER LOCATION')
         country_form = CountryForm(data=request.POST)
         city_form = CityForm(data=request.POST)
         
