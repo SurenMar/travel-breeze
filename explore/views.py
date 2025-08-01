@@ -12,7 +12,6 @@ from library.api_clients.weather_api import get_weather_data
 from library.api_clients.country_api import get_country_data, get_coord_data
 
 # Import utils
-from library.utils.serializers import serialize_weather_data
 from library.utils.processors import process_weather_avgs
 from library.utils.processors import clean_weather_data
 
