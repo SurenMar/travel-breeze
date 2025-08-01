@@ -14,6 +14,7 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 # Get datasets and convert to df
 CURRENT_DIR = os.path.dirname(__file__)
@@ -44,18 +45,22 @@ bike_df = bike_df.rename(columns={'Rented Bike Count': 'biking_suitability'})
 # Create features and labels
 X = bike_df.drop(columns=(['biking_suitability'])).values
 y = bike_df['biking_suitability'].values
+
+# Fine tune classifier
+'''
+# Split data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, stratify=y, random_state=4,
 )
 
 # Fine tune hyperparameters
 param_grid = {
-    'n_estimators': [150, 200],
-    'max_depth': [10, 12, 14],
-    'min_samples_split': [2, 5, 7],
+    'n_estimators': [180, 200, 220],
+    'max_depth': [11, 13, 15],
+    'min_samples_split': [2, 4, 6],
     'min_samples_leaf': [1, 2],
-    'max_features': ['sqrt'],
-    'bootstrap': [False]
+    'max_features': ['sqrt', 'log2'],
+    'bootstrap': [False, True]
 }
 grid = GridSearchCV(
     estimator=RandomForestClassifier(random_state=4),
@@ -66,6 +71,29 @@ grid = GridSearchCV(
     error_score='raise',
 )
 
-# Fit and serialize model
 grid.fit(X_train, y_train)
-joblib.dump(grid.best_estimator_, 'library/ml/ml_models/bike_clf.pkl')
+y_pred = grid.best_estimator_.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(grid.best_params_)
+print(f'Scoring: {grid.best_score_:.4f}')
+print(f'Accuracy: {accuracy:.4f}')
+'''
+
+# Train rf classifier based on best params from grid search
+forest = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=13,
+    min_samples_leaf=1,
+    min_samples_split=4,
+    max_features='sqrt',
+    bootstrap=True,
+    n_jobs=3,
+    random_state=4
+)
+
+# Fit on all data
+forest.fit(X, y)
+
+# Fit and serialize model
+joblib.dump(forest, 'library/ml/ml_models/bike_clf.pkl')
