@@ -67,7 +67,6 @@ def _process_weather_data(destinations, user):
         # Get country and city name through API (no need to parse)
         # Dont add to db if it already exists
         country, city = get_country_data(lat, lon)
-        print(country, city)
         if _destination_exists(user, country, city):
             continue
         
@@ -75,9 +74,6 @@ def _process_weather_data(destinations, user):
         raw_weather_df = get_weather_data(lat, lon)
         clean_weather_df = clean_weather_data(raw_weather_df)
         # Check if cleaning failed (no weather stations with needed data)
-        print('------------')
-        print(len(clean_weather_df))
-        print('------------')
         if len(clean_weather_df) == 0:
             invalid_dests.append(dest)
         # Analyze data
@@ -95,7 +91,6 @@ def save_data(request):
     A view which recieves/sends/processes requests regarding weather/map data
     """
     if 'enter_location' in request.POST:
-        print('ENTER LOCATION')
         country_form = CountryForm(data=request.POST)
         city_form = CityForm(data=request.POST)
         
@@ -125,12 +120,9 @@ def save_data(request):
     # Get latitude and longitude from user's clicks
     user_click = json.loads(request.body)
     destinations = user_click.get('destinations', [])
-    print('PROCESSING CLICKS')
-    print(destinations)
     
     # Process weather data
     invalid_dests = _process_weather_data(destinations, request.user)
-    print(invalid_dests)
     
     # Return all invalid destinations to frontend
     return JsonResponse({

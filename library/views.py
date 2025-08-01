@@ -99,7 +99,7 @@ def destination_detail(request, destination_id):
         labels={'x': 'Months', 'y': graph_info['y_label']},
         title=graph_info['title'],
         range_y=y_bounds,
-        hover_data={'Biking ': biking_data},
+        hover_data={'Biking': biking_data},
     )
     fig.update_layout(
         yaxis=dict(
