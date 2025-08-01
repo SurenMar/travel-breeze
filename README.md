@@ -1,13 +1,14 @@
 # Travel Breeze
 
-Web application built with **Django** that visually provides historical monthly weather data for any destination around the world.
+Web app built with **Django** and **Scikit-Learn** that visually provides monthly weather data and biking suitability predictions for any location.
 
- Users can explore locations, view interactive climate visualizations, and save favorite destinations.
+Users can explore locations, view interactive climate visualizations, and save favorite destinations.
 
 ## Tech Stack
 
 ### ⚙️ Backend
 - Django
+- Scikit-Learn
 - SQLite
 - Pandas
 - MeteoStat API (weather data)
@@ -38,15 +39,21 @@ Web application built with **Django** that visually provides historical monthly 
 - Displays all of the user’s saved destinations.
 - Click on a location to view a detailed climate summary with an interactive bar graph.
 - Toggle between weather metrics: **Temperature**, **Humidity**, **Precipitation**, and **Wind Speed**.
-- View detailed data for any specific month.
+- View detailed data for any specific month which also specifies whether that location is suitable for biking during that month.
 - Easily remove destinations from your library.
   
-   <img width="450" alt="Screenshot 2025-06-02 at 9 01 53 PM" src="https://github.com/user-attachments/assets/2df1e390-c6fc-4fbb-9b35-de00bb9281e1" /> <img width="450" alt="Screenshot 2025-06-02 at 9 02 21 PM" src="https://github.com/user-attachments/assets/b0bbec35-b6dc-4d8a-9212-602c3909bc16" />
-
+   <img width="450" alt="Screenshot 2025-06-02 at 9 01 53 PM" src="https://github.com/user-attachments/assets/2df1e390-c6fc-4fbb-9b35-de00bb9281e1" /> <img width="450" alt="Screenshot 2025-07-31 at 10 35 15 PM" src="https://github.com/user-attachments/assets/97d739ca-7519-466b-81c9-ba8f9b60d90b" />
 
 ### ❌ Error Handling
 - Graceful feedback for invalid or duplicate inputs.
 - Alerts for non-existent locations or unsupported geocoding/MeteoStat results.
+
+## ML Biking Suitability Classifier
+
+- Fine tuned and trained a RandomForestClassifier from sklearn with **88.4%** accuracy.
+- This classifier predicts whether riding a bike in a location at a certain month is ideal or not based on weather conditions.
+- Initial training dataset is downloaded from UCIrving's ML Repo. Dataset name is Seoul Bike Sharing Demand.
+- After processing, training dataset turned out to be about 1000 lines long with equal class distrubution
 
 ## APIs and Data Processing
 
@@ -103,15 +110,4 @@ Web application built with **Django** that visually provides historical monthly 
 
 ## ✅ To-Do List
 
-- Add ML model that classifies each of the destinations months as having suitable wether for biking or not.
-  
-   1. Add biking_suitability attribute to MonthlyWeather label.
-   2. Read hourly biking dataset through ucimlrepo API and fetch hourly dataset.
-   3. Remove rows for which the non-weather feature heavily dictates biking outcome (weekends, midnight hours, etc).
-   4. Filter features and keep only weather information.
-   5. Add labels 1, 0 to each row by averaging the total bicycle counts and analyzing the std dev of the counts of each row.
-   6. Train SGDClassifier model with filtered data (SGDClassifier is used because it handles overfitting and provides online learning).
-   7. Implement model into web app and predict suitability for eahc month each time a user selects a destination.
-   8. After destination is selected, the user will be asked if they would ride a bicycle at their selected destination.
-   9. Without storing in DB, use this information for online learning, and store the new prediction for the destination in DB.
-   10. Add "Biking Suitability" to the Plotly graph and each months weather page.
+- Update install script to train ML model.
