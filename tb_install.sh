@@ -47,14 +47,9 @@ cd "${prog_name}"
 python3 -m venv tb_env
 source tb_env/bin/activate
 
-# Upgrade pip
-python -m pip install --upgrade pip
-
 # Upgrade pip and install needed libraries and frameworks
 python -m pip install --upgrade pip
-for requirement in $(cat requirements.txt); do	
-    pip install "$requirement"
-done
+pip install -r requirements.txt
 
 # Migrate models
 python manage.py makemigrations
