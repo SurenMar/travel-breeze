@@ -110,4 +110,4 @@ Users can explore locations, view interactive climate visualizations, and save f
 
 ## ✅ To-Do List
 
-- Update install script to train ML model.
+*empty...*
