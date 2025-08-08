@@ -113,7 +113,7 @@ Users can explore locations, view interactive climate visualizations, and save f
 7. Type in the provided web address into your web browser and start exploring!
 8. To end the session, press `control` + `C`.
 
-#### Manually:
+### Manually:
 1. Download a ZIP file of **travel-breeze**.
 2. Unzip the file.
 3. The files will be in a folder called `travel-breeze-main`.
