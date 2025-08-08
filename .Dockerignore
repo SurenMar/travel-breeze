@@ -1,0 +1,5 @@
+.env
+tb_env/
+.DS_Store
+__pycache__/
+data.json
