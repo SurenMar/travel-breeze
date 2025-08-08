@@ -21,6 +21,10 @@ Users can explore locations, view interactive climate visualizations, and save f
 - JavaScript
 - Leaflet.js (interactive maps)
 
+### 🛠️ DevOps
+- Docker
+- Bash (install script)
+
 ## Features
 
 ### 👤 User Authentication
