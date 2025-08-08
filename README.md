@@ -94,7 +94,7 @@ Users can explore locations, view interactive climate visualizations, and save f
 
 ## 🚀 Installation
 
-### Through Docker
+### Via Docker
 1. Download **Docker** for your OS.
 2. Start the **Docker Engine** in order to type docker commands.
 3. Pull the image for this web app: `docker pull surenmardock/tb-image`.
@@ -103,26 +103,25 @@ Users can explore locations, view interactive climate visualizations, and save f
 6. Go to `http://localhost:8000` and start exploring!
 7. To end the session, type `docker stop surenmardock/tb-image`.
 
-### Through Bash
-#### For Mac and Linux (Ubuntu) Users Only:
-   1. Download the file `tb_install.sh` into a folder where you like the application to be.
-   2. Make the script executable: `chmod +x tb_install.sh`.
-   3. Run the file: `./tb_install.sh`.
-   4. If you are missing any required programs, the script will notify you. Download these programs and re-run `tb_install.sh`.
-   5. The script will download all libraries and framewords needed from the `requirements.txt` file
-   6. Follow the steps provided once the script finishes.
-   7. Type in the provided web address into your web browser and start exploring!
-   8. To end the session, press `control` + `C`.
+### Via Auto Install Script (Mac + Ubuntu users only)
+1. Download the file `tb_install.sh` into a folder where you like the application to be.
+2. Make the script executable: `chmod +x tb_install.sh`.
+3. Run the file: `./tb_install.sh`.
+4. If you are missing any required programs, the script will notify you. Download these programs and re-run `tb_install.sh`.
+5. The script will download all libraries and framewords needed from the `requirements.txt` file
+6. Follow the steps provided once the script finishes.
+7. Type in the provided web address into your web browser and start exploring!
+8. To end the session, press `control` + `C`.
 
-#### For All Users:
-   1. Download a ZIP file of **travel-breeze**.
-   2. Unzip the file.
-   3. The files will be in a folder called `travel-breeze-main`.
-   4. Go into this file and ensure you have python and pip installed (installation steps vary depending on OS).
-   5. Install the required libraries and frameworks from the `requirements.txt` file (installation steps vary depending on OS).
-   6. Make `tb_run.sh` executable: `chmod +x tb_run.sh`.
-   7. Run the executable and type in the provided web address into your web browser and start exploring!
-   8. To end the session, press `control` + `C`.
+#### Manually:
+1. Download a ZIP file of **travel-breeze**.
+2. Unzip the file.
+3. The files will be in a folder called `travel-breeze-main`.
+4. Go into this file and ensure you have python and pip installed (installation steps vary depending on OS).
+5. Install the required libraries and frameworks from the `requirements.txt` file (installation steps vary depending on OS).
+6. Make `tb_run.sh` executable: `chmod +x tb_run.sh`.
+7. Run the executable and type in the provided web address into your web browser and start exploring!
+8. To end the session, press `control` + `C`.
 
 ## ✅ To-Do List
 
