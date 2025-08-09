@@ -125,4 +125,4 @@ Users can explore locations, view interactive climate visualizations, and save f
 
 ## ✅ To-Do List
 
-*empty...*
+- Add tests for apps using Pytest
