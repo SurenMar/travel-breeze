@@ -126,3 +126,4 @@ Users can explore locations, view interactive climate visualizations, and save f
 ## ✅ To-Do List
 
 - Add tests for apps using Pytest
+- Update and push Docker image
