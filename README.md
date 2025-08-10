@@ -25,6 +25,9 @@ Users can explore locations, view interactive climate visualizations, and save f
 - Docker
 - Bash (install script)
 
+### 🧪 Testing
+- Pytest
+
 ## Features
 
 ### 👤 User Authentication
