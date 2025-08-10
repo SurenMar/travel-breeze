@@ -1,6 +1,6 @@
 # Travel Breeze
 
-Web app built with **Django** and **Scikit-Learn** that visually provides monthly weather data and biking suitability predictions for any location.
+Dockerized web app built with **Django** and **scikit-learn** that visually provides monthly weather data and biking suitability predictions for any location.
 
 Users can explore locations, view interactive climate visualizations, and save favorite destinations.
 
