@@ -57,7 +57,7 @@ Users can explore locations, view interactive climate visualizations, and save f
 
 ## ML Biking Suitability Classifier
 
-- Fine tuned and trained a RandomForestClassifier from sklearn with **86.8%** accuracy.
+- Fine tuned and trained a RandomForestClassifier from scikit-learn with **91.8%** accuracy.
 - This classifier predicts whether riding a bike in a location at a certain month is ideal or not based on weather conditions.
 - Initial training dataset is downloaded from UCIrving's ML Repo. Dataset name is Seoul Bike Sharing Demand.
 - After processing, training dataset turned out to be about 1000 lines long with equal class distrubution

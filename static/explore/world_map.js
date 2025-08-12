@@ -121,6 +121,9 @@ function addLocation() {
             newCoords.push({ latitude: data.lat, longitude: data.lon });
         }
     })
+    .catch(error => {
+        console.error(error);
+    })
 }
 
 // Function that sends selected locations to save_data view
@@ -153,10 +156,13 @@ function saveLocation() {
         },
         body: JSON.stringify({ destinations: newCoords })
     // Process response and display any errors if needed
-    }).
-    then(response => {
+    })
+    .then(response => {
         newCoords = []
         hideSaveSpinner()
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         return response.json()
     })
     .then(data => {
@@ -179,5 +185,8 @@ function saveLocation() {
             errorNoStations.style.display = 'none';
         }
         newMarkers = []
+    })
+    .catch(error => {
+        console.error(error);
     })
 }
